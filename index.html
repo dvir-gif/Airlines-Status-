@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>עדכוני חברות תעופה וסטטוס טיסות | עמסלם טורס</title>
-    <!-- ייבוא פונט מודרני מגוגל -->
     <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -44,14 +43,12 @@
         header img:hover {
             transform: scale(1.02);
         }
-        /* פס דקורטיבי מתחת להדר */
         .header-line {
             height: 4px;
             background: linear-gradient(90deg, var(--brand-cyan) 0%, #4fd1c5 100%);
             width: 100%;
         }
 
-        /* --- קונטיינר מרכזי --- */
         .container {
             max-width: 1100px;
             margin: 40px auto;
@@ -59,7 +56,6 @@
             box-sizing: border-box;
         }
 
-        /* --- כותרות וזמנים --- */
         .page-header {
             text-align: center;
             margin-bottom: 50px;
@@ -82,7 +78,6 @@
             border: 1px solid rgba(25, 181, 213, 0.2);
         }
 
-        /* --- תיבת חיפוש מרחפת --- */
         .search-container {
             text-align: center;
             margin-bottom: 50px;
@@ -91,7 +86,7 @@
         #searchInput {
             width: 100%;
             max-width: 600px;
-            padding: 18px 25px 18px 50px; /* מקום לאייקון בעתיד */
+            padding: 18px 25px 18px 50px;
             font-size: 17px;
             border: 2px solid transparent;
             border-radius: 40px;
@@ -102,16 +97,12 @@
             box-shadow: 0 10px 25px rgba(0,0,0,0.06);
             color: var(--brand-dark);
         }
-        #searchInput::placeholder {
-            color: #a0aec0;
-        }
         #searchInput:focus {
             border-color: var(--brand-cyan);
             box-shadow: 0 10px 30px rgba(25, 181, 213, 0.15);
             transform: translateY(-2px);
         }
 
-        /* --- עיצוב קטגוריות וטבלאות כ"כרטיסיות" --- */
         .section-block {
             margin-bottom: 50px;
         }
@@ -161,7 +152,6 @@
             background-color: #fcfdfe;
         }
 
-        /* --- תגיות סטטוס מודרניות --- */
         .status-badge {
             display: inline-flex;
             align-items: center;
@@ -171,18 +161,9 @@
             font-size: 0.9em;
             font-weight: 600;
         }
-        .status-active { 
-            background-color: #e6f4ea; 
-            color: #137333; 
-        }
-        .status-paused { 
-            background-color: #fef7e0; 
-            color: #b06000; 
-        }
-        .status-stopped { 
-            background-color: #fce8e6; 
-            color: #c5221f; 
-        }
+        .status-active { background-color: #e6f4ea; color: #137333; }
+        .status-paused { background-color: #fef7e0; color: #b06000; }
+        .status-stopped { background-color: #fce8e6; color: #c5221f; }
 
         footer {
             text-align: center;
@@ -193,11 +174,9 @@
             border-top: 1px solid var(--border-color);
         }
         
-        /* התאמה למובייל */
         @media (max-width: 768px) {
             h1.main-title { font-size: 1.8em; }
             th, td { padding: 15px 12px; font-size: 0.95em; }
-            .status-badge { padding: 5px 10px; font-size: 0.85em; }
             header img { max-width: 280px; }
         }
     </style>
@@ -213,7 +192,7 @@
         
         <div class="page-header">
             <h1 class="main-title">עדכוני חברות תעופה וסטטוס טיסות</h1>
-            <div class="timestamp">סטטוס מעודכן ל-04.05.2026 בשעה 08:00</div>
+            <div class="timestamp">סטטוס מעודכן ל-11.05.2026 בשעה 09:15</div>
         </div>
 
         <div class="search-container">
@@ -276,34 +255,34 @@
                         <th style="text-align: center;">קוד IATA</th>
                         <th>מועד חזרה משוער</th>
                     </tr>
-                    <tr><td><strong>Hainan Airlines</strong></td><td dir="ltr" style="text-align: center;">HU</td><td><span class="status-badge status-paused">07.05.2026</span></td></tr>
-                    <tr><td><strong>Air France</strong></td><td dir="ltr" style="text-align: center;">AF</td><td><span class="status-badge status-paused">11.05.2026</span></td></tr>
-                    <tr><td><strong>Bulgaria Air</strong></td><td dir="ltr" style="text-align: center;">FB</td><td><span class="status-badge status-paused">14.05.2026</span></td></tr>
-                    <tr><td><strong>KLM</strong></td><td dir="ltr" style="text-align: center;">KL</td><td><span class="status-badge status-paused">17.05.2026</span></td></tr>
-                    <tr><td><strong>Wizz Air</strong></td><td dir="ltr" style="text-align: center;">W6</td><td><span class="status-badge status-paused">19.05.2026</span></td></tr>
-                    <tr><td><strong>Georgian Airways</strong></td><td dir="ltr" style="text-align: center;">A9</td><td><span class="status-badge status-paused">20.05.2026</span></td></tr>
-                    <tr><td><strong>Smartwings</strong></td><td dir="ltr" style="text-align: center;">QS</td><td><span class="status-badge status-paused">20.05.2026</span></td></tr>
-                    <tr><td><strong>FLYONE</strong></td><td dir="ltr" style="text-align: center;">5F</td><td><span class="status-badge status-paused">20.05.2026</span></td></tr>
-                    <tr><td><strong>Austrian Airlines</strong></td><td dir="ltr" style="text-align: center;">OS</td><td><span class="status-badge status-paused">01.07.2026</span></td></tr>
+                    <tr><td><strong>Austrian Airlines</strong></td><td dir="ltr" style="text-align: center;">OS</td><td><span class="status-badge status-paused">31.05.2026</span></td></tr>
+                    <tr><td><strong>Iberia</strong></td><td dir="ltr" style="text-align: center;">IB</td><td><span class="status-badge status-paused">01.07.2026</span></td></tr>
+                    <tr><td><strong>ITA Airways</strong></td><td dir="ltr" style="text-align: center;">AZ</td><td><span class="status-badge status-paused">01.06.2026</span></td></tr>
                     <tr><td><strong>Air India</strong></td><td dir="ltr" style="text-align: center;">AI</td><td><span class="status-badge status-paused">31.05.2026</span></td></tr>
                     <tr><td><strong>Air Europa</strong></td><td dir="ltr" style="text-align: center;">UX</td><td><span class="status-badge status-paused">31.05.2026</span></td></tr>
-                    <tr><td><strong>Brussels Airlines</strong></td><td dir="ltr" style="text-align: center;">SN</td><td><span class="status-badge status-paused">01.07.2026</span></td></tr>
-                    <tr><td><strong>Eurowings</strong></td><td dir="ltr" style="text-align: center;">EW</td><td><span class="status-badge status-paused">01.07.2026</span></td></tr>
-                    <tr><td><strong>LOT Polish Airlines</strong></td><td dir="ltr" style="text-align: center;">LO</td><td><span class="status-badge status-paused">31.05.2026</span></td></tr>
-                    <tr><td><strong>Lufthansa</strong></td><td dir="ltr" style="text-align: center;">LH</td><td><span class="status-badge status-paused">01.07.2026</span></td></tr>
-                    <tr><td><strong>SWISS</strong></td><td dir="ltr" style="text-align: center;">LX</td><td><span class="status-badge status-paused">01.07.2026</span></td></tr>
-                    <tr><td><strong>ITA Airways</strong></td><td dir="ltr" style="text-align: center;">AZ</td><td><span class="status-badge status-paused">01.06.2026</span></td></tr>
-                    <tr><td><strong>SAS</strong></td><td dir="ltr" style="text-align: center;">SK</td><td><span class="status-badge status-paused">02.06.2026</span></td></tr>
-                    <tr><td><strong>Iberia</strong></td><td dir="ltr" style="text-align: center;">IB</td><td><span class="status-badge status-paused">01.07.2026</span></td></tr>
                     <tr><td><strong>airBaltic</strong></td><td dir="ltr" style="text-align: center;">BT</td><td><span class="status-badge status-paused">01.07.2026</span></td></tr>
-                    <tr><td><strong>Air Seychelles</strong></td><td dir="ltr" style="text-align: center;">HM</td><td><span class="status-badge status-paused">01.07.2026</span></td></tr>
-                    <tr><td><strong>British Airways</strong></td><td dir="ltr" style="text-align: center;">BA</td><td><span class="status-badge status-paused">01.07.2026</span></td></tr>
-                    <tr><td><strong>Transavia France</strong></td><td dir="ltr" style="text-align: center;">TO</td><td><span class="status-badge status-paused">05.07.2026</span></td></tr>
-                    <tr><td><strong>Animawings</strong></td><td dir="ltr" style="text-align: center;">A2</td><td><span class="status-badge status-paused">10.08.2026</span></td></tr>
-                    <tr><td><strong>Delta Air Lines</strong></td><td dir="ltr" style="text-align: center;">DL</td><td><span class="status-badge status-paused">05.09.2026</span></td></tr>
+                    <tr><td><strong>Air France</strong></td><td dir="ltr" style="text-align: center;">AF</td><td><span class="status-badge status-paused">20.05.2026</span></td></tr>
                     <tr><td><strong>Air Canada</strong></td><td dir="ltr" style="text-align: center;">AC</td><td><span class="status-badge status-paused">07.09.2026</span></td></tr>
+                    <tr><td><strong>Animawings</strong></td><td dir="ltr" style="text-align: center;">A2</td><td><span class="status-badge status-paused">10.08.2026</span></td></tr>
+                    <tr><td><strong>Bulgaria Air</strong></td><td dir="ltr" style="text-align: center;">FB</td><td><span class="status-badge status-paused">31.05.2026</span></td></tr>
+                    <tr><td><strong>Brussels Airlines</strong></td><td dir="ltr" style="text-align: center;">SN</td><td><span class="status-badge status-paused">31.05.2026</span></td></tr>
+                    <tr><td><strong>British Airways</strong></td><td dir="ltr" style="text-align: center;">BA</td><td><span class="status-badge status-paused">01.07.2026</span></td></tr>
+                    <tr><td><strong>Georgian Airways</strong></td><td dir="ltr" style="text-align: center;">A9</td><td><span class="status-badge status-paused">16.06.2026</span></td></tr>
+                    <tr><td><strong>Delta Air Lines</strong></td><td dir="ltr" style="text-align: center;">DL</td><td><span class="status-badge status-paused">05.09.2026</span></td></tr>
+                    <tr><td><strong>Hainan Airlines</strong></td><td dir="ltr" style="text-align: center;">HU</td><td><span class="status-badge status-paused">21.05.2026</span></td></tr>
+                    <tr><td><strong>Wizz Air</strong></td><td dir="ltr" style="text-align: center;">W6</td><td><span class="status-badge status-paused">26.05.2026</span></td></tr>
+                    <tr><td><strong>Transavia France</strong></td><td dir="ltr" style="text-align: center;">TO</td><td><span class="status-badge status-paused">05.07.2026</span></td></tr>
                     <tr><td><strong>United Airlines</strong></td><td dir="ltr" style="text-align: center;">UA</td><td><span class="status-badge status-paused">07.09.2026</span></td></tr>
-                    <tr><td><strong>Neos</strong></td><td dir="ltr" style="text-align: center;">NO</td><td><span class="status-badge status-paused">מושהה (ללא תאריך)</span></td></tr>
+                    <tr><td><strong>Eurowings</strong></td><td dir="ltr" style="text-align: center;">EW</td><td><span class="status-badge status-paused">31.05.2026</span></td></tr>
+                    <tr><td><strong>LOT Polish Airlines</strong></td><td dir="ltr" style="text-align: center;">LO</td><td><span class="status-badge status-paused">31.05.2026</span></td></tr>
+                    <tr><td><strong>Lufthansa</strong></td><td dir="ltr" style="text-align: center;">LH</td><td><span class="status-badge status-paused">31.05.2026</span></td></tr>
+                    <tr><td><strong>SWISS</strong></td><td dir="ltr" style="text-align: center;">LX</td><td><span class="status-badge status-paused">31.05.2026</span></td></tr>
+                    <tr><td><strong>Smartwings</strong></td><td dir="ltr" style="text-align: center;">QS</td><td><span class="status-badge status-active">תחדש ב-20.05.2026</span></td></tr>
+                    <tr><td><strong>SAS</strong></td><td dir="ltr" style="text-align: center;">SK</td><td><span class="status-badge status-paused">14.08.2026</span></td></tr>
+                    <tr><td><strong>FLYONE</strong></td><td dir="ltr" style="text-align: center;">5F</td><td><span class="status-badge status-paused">20.05.2026</span></td></tr>
+                    <tr><td><strong>KLM</strong></td><td dir="ltr" style="text-align: center;">KL</td><td><span class="status-badge status-paused">28.05.2026</span></td></tr>
+                    <tr><td><strong>Neos</strong></td><td dir="ltr" style="text-align: center;">NO</td><td><span class="status-badge status-stopped">השהתה טיסות</span></td></tr>
+                    <tr><td><strong>Air Seychelles</strong></td><td dir="ltr" style="text-align: center;">HM</td><td><span class="status-badge status-stopped">השהתה טיסות</span></td></tr>
                 </table>
             </div>
         </div>
@@ -318,8 +297,8 @@
                         <th>סטטוס נוכחי</th>
                         <th>מועד חזרה משוער</th>
                     </tr>
-                    <tr><td><strong>TAP Air Portugal</strong></td><td dir="ltr" style="text-align: center;">TP</td><td>צפויה לחדש טיסות</td><td><span class="status-badge status-paused">31.05.2026</span></td></tr>
-                    <tr><td><strong>Condor</strong></td><td dir="ltr" style="text-align: center;">DE</td><td>צפויה לחדש טיסות</td><td><span class="status-badge status-paused">12.06.2026</span></td></tr>
+                    <tr><td><strong>TAP Air Portugal</strong></td><td dir="ltr" style="text-align: center;">TP</td><td>צפויה לחדש טיסות</td><td><span class="status-badge status-paused">01.07.2026</span></td></tr>
+                    <tr><td><strong>Condor</strong></td><td dir="ltr" style="text-align: center;">DE</td><td>צפויה לחדש טיסות</td><td><span class="status-badge status-paused">01.07.2026</span></td></tr>
                     <tr><td><strong>American Airlines</strong></td><td dir="ltr" style="text-align: center;">AA</td><td>צפויה לחדש טיסות</td><td><span class="status-badge status-paused">08.09.2026</span></td></tr>
                     <tr><td><strong>easyJet</strong></td><td dir="ltr" style="text-align: center;">U2</td><td>צפויה לחדש טיסות</td><td><span class="status-badge status-paused">25.10.2026</span></td></tr>
                     <tr><td><strong>Air Serbia</strong></td><td dir="ltr" style="text-align: center;">JU</td><td><span class="status-badge status-stopped">מושהה</span></td><td>לא פורסם</td></tr>
@@ -353,24 +332,16 @@
                 let trs = table.getElementsByTagName('tr');
                 let hasVisibleRows = false;
 
-                // עוברים על כל השורות בטבלה (מלבד שורת הכותרת)
                 for (let i = 1; i < trs.length; i++) {
                     let rowText = trs[i].textContent || trs[i].innerText;
-                    
                     if (rowText.toUpperCase().indexOf(filter) > -1) {
-                        trs[i].style.display = ""; // הצגת השורה
+                        trs[i].style.display = "";
                         hasVisibleRows = true;
                     } else {
-                        trs[i].style.display = "none"; // הסתרת השורה
+                        trs[i].style.display = "none";
                     }
                 }
-
-                // הסתרת הקטגוריה כולה אם אין בה תוצאות
-                if (hasVisibleRows) {
-                    block.style.display = "";
-                } else {
-                    block.style.display = "none";
-                }
+                block.style.display = hasVisibleRows ? "" : "none";
             });
         });
     </script>
