@@ -8,11 +8,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --brand-cyan: #06b6d4; /* תכלת זוהר וחדשני */
-            --brand-blue: #0f172a; /* כחול-כהה עמוק מאד */
-            --brand-gradient: linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%);
-            --bg-app: #f4f7f9;
-            --text-dark: #1e293b;
+            --brand-cyan: #0ea5e9; /* תכלת בהיר ומודרני */
+            --brand-blue: #0f172a; 
+            --brand-gradient: linear-gradient(135deg, #0f172a 0%, #2563eb 100%); /* גרדיאנט כחול רויאל חדש */
+            --bg-app: #f8fafc;
+            --text-dark: #0f172a;
             --text-muted: #64748b;
             --card-bg: #ffffff;
             --border-light: #e2e8f0;
@@ -30,16 +30,16 @@
         /* --- הדר (לוגו) --- */
         header {
             background-color: #ffffff;
-            padding: 15px 20px;
+            padding: 18px 20px;
             text-align: center;
             position: sticky;
             top: 0;
             z-index: 100;
-            box-shadow: 0 4px 25px rgba(0,0,0,0.05);
-            border-bottom: 3px solid var(--brand-cyan);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+            border-bottom: 4px solid var(--brand-cyan);
         }
         header img {
-            max-width: 240px;
+            max-width: 220px;
             height: auto;
             transition: opacity 0.3s ease;
         }
@@ -50,21 +50,20 @@
         /* --- אזור כותרת ראשי (Hero) --- */
         .hero-section {
             background: var(--brand-gradient);
-            padding: 60px 20px 100px 20px;
+            padding: 70px 20px 110px 20px;
             text-align: center;
             color: white;
-            border-bottom-left-radius: 50px;
-            border-bottom-right-radius: 50px;
-            box-shadow: 0 15px 40px rgba(15, 23, 42, 0.15);
+            border-bottom-left-radius: 60px;
+            border-bottom-right-radius: 60px;
+            box-shadow: 0 20px 50px rgba(37, 99, 235, 0.15);
             position: relative;
             overflow: hidden;
         }
-        /* אפקט הברקה ברקע */
         .hero-section::before {
             content: '';
             position: absolute;
             top: -50%; left: -50%; width: 200%; height: 200%;
-            background: radial-gradient(circle, rgba(6, 182, 212, 0.1) 0%, rgba(0,0,0,0) 70%);
+            background: radial-gradient(circle, rgba(14, 165, 233, 0.15) 0%, rgba(0,0,0,0) 60%);
             z-index: 0;
         }
         .hero-section > * {
@@ -73,31 +72,31 @@
         }
         
         .hero-section h1 {
-            margin: 0 0 20px 0;
-            font-size: 3em;
+            margin: 0 0 25px 0;
+            font-size: 3.2em;
             font-weight: 800;
-            letter-spacing: -1.5px;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            letter-spacing: -1px;
+            text-shadow: 0 4px 15px rgba(0,0,0,0.2);
         }
         .hero-section .timestamp {
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            padding: 10px 28px;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            padding: 12px 30px;
             border-radius: 50px;
-            font-size: 1.15em;
-            font-weight: 500;
-            border: 1px solid rgba(255,255,255,0.25);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            font-size: 1.1em;
+            font-weight: 600;
+            border: 1px solid rgba(255,255,255,0.2);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
         }
 
         /* --- קונטיינר מרכזי --- */
         .container {
-            max-width: 1050px;
-            margin: -50px auto 60px;
+            max-width: 1080px;
+            margin: -60px auto 60px;
             padding: 0 20px;
             box-sizing: border-box;
             position: relative;
@@ -111,26 +110,26 @@
         }
         #searchInput {
             width: 100%;
-            max-width: 700px;
+            max-width: 750px;
             padding: 24px 35px;
-            font-size: 1.15em;
+            font-size: 1.2em;
             border: 2px solid transparent;
-            border-radius: 50px;
+            border-radius: 60px;
             outline: none;
             font-family: inherit;
             background-color: var(--card-bg);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+            box-shadow: 0 15px 35px rgba(15, 23, 42, 0.08);
             color: var(--text-dark);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
         #searchInput::placeholder {
             color: #94a3b8;
             font-weight: 400;
         }
         #searchInput:focus {
-            transform: translateY(-4px);
-            box-shadow: 0 25px 50px rgba(6, 182, 212, 0.2);
-            border-color: rgba(6, 182, 212, 0.4);
+            transform: translateY(-5px);
+            box-shadow: 0 25px 50px rgba(14, 165, 233, 0.2);
+            border-color: var(--brand-cyan);
         }
 
         /* --- כותרות קטגוריה --- */
@@ -139,16 +138,16 @@
         }
         h2 {
             color: var(--brand-blue);
-            font-size: 1.6em;
+            font-size: 1.7em;
             font-weight: 800;
             margin-bottom: 25px;
             display: flex;
             align-items: center;
             gap: 12px;
-            padding-right: 10px;
+            padding-right: 5px;
         }
 
-        /* --- עיצוב טבלה - שורות מרחפות --- */
+        /* --- עיצוב טבלה - שורות מרחפות חדשות --- */
         .table-responsive {
             overflow-x: auto;
             padding-bottom: 15px;
@@ -156,20 +155,20 @@
         table {
             width: 100%;
             border-collapse: separate;
-            border-spacing: 0 14px;
+            border-spacing: 0 12px;
             text-align: right;
         }
         th {
-            color: var(--text-muted);
-            font-weight: 600;
+            color: #475569;
+            font-weight: 700;
             font-size: 0.95em;
-            padding: 0 25px 5px 25px;
+            padding: 0 30px 5px 30px;
             white-space: nowrap;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
         td {
-            padding: 22px 25px;
+            padding: 24px 30px;
             background-color: var(--card-bg);
             vertical-align: middle;
             color: var(--text-dark);
@@ -183,7 +182,7 @@
             font-weight: 700;
             font-size: 1.15em;
             color: var(--brand-blue);
-            border-right: 4px solid transparent; /* הכנה לפס צבע מרחף */
+            border-right: 5px solid transparent; 
         }
         td:last-child {
             border-left: 1px solid var(--border-light);
@@ -198,15 +197,15 @@
         .section-stopped td:first-child { border-right-color: #ef4444; }
 
         tr {
-            box-shadow: 0 5px 15px rgba(0,0,0,0.02);
-            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
         tr:hover td {
             background-color: #f8fafc;
         }
         tr:hover {
-            transform: translateY(-3px) scale(1.005);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.06);
+            transform: translateX(-5px) translateY(-2px); /* אפקט תזוזה הצידה ולמעלה */
+            box-shadow: 8px 12px 25px rgba(0,0,0,0.06);
         }
 
         /* --- תגיות סטטוס מודרניות --- */
@@ -214,8 +213,8 @@
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            padding: 8px 18px;
-            border-radius: 30px;
+            padding: 8px 20px;
+            border-radius: 40px;
             font-size: 0.95em;
             font-weight: 700;
             letter-spacing: 0.3px;
@@ -223,24 +222,24 @@
         .status-active { 
             background-color: #ecfdf5; 
             color: #059669; 
-            border: 1px solid #a7f3d0;
+            border: 1px solid #6ee7b7;
         }
         .status-paused { 
             background-color: #fffbeb; 
             color: #d97706; 
-            border: 1px solid #fde68a;
+            border: 1px solid #fcd34d;
         }
         .status-stopped { 
             background-color: #fef2f2; 
             color: #dc2626; 
-            border: 1px solid #fecaca;
+            border: 1px solid #fca5a5;
         }
 
         footer {
             text-align: center;
             padding: 40px 20px;
             color: var(--text-muted);
-            font-size: 1em;
+            font-size: 1.05em;
             margin-top: 60px;
             background-color: #e2e8f0;
             border-top: 1px solid #cbd5e1;
@@ -248,14 +247,15 @@
         
         /* התאמה למובייל */
         @media (max-width: 768px) {
-            .hero-section { padding: 40px 15px 80px 15px; border-bottom-left-radius: 30px; border-bottom-right-radius: 30px;}
-            .hero-section h1 { font-size: 2.2em; }
-            #searchInput { padding: 20px 25px; font-size: 1em; }
+            .hero-section { padding: 50px 15px 90px 15px; border-bottom-left-radius: 40px; border-bottom-right-radius: 40px;}
+            .hero-section h1 { font-size: 2.3em; }
+            #searchInput { padding: 20px 25px; font-size: 1.05em; }
             table { border-spacing: 0 10px; }
             th, td { padding: 18px 15px; font-size: 0.95em; }
             td:first-child { font-size: 1.05em; }
             .status-badge { padding: 6px 12px; font-size: 0.85em; }
             header img { max-width: 180px; }
+            tr:hover { transform: translateY(-2px); } /* ביטול תזוזה הצידה במובייל */
         }
     </style>
 </head>
@@ -268,8 +268,8 @@
     <div class="hero-section">
         <h1 class="main-title">עדכוני חברות תעופה</h1>
         <div class="timestamp">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-            סטטוס מעודכן ל-19.05.2026 בשעה 09:00
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+            סטטוס מעודכן ל-23.05.2026 בשעה 10:45
         </div>
     </div>
 
@@ -329,6 +329,8 @@
                         <tr><td>flydubai</td><td dir="ltr" style="text-align: center;">FZ</td><td><span class="status-badge status-active">פעילה</span></td></tr>
                         <tr><td>Centrum Air</td><td dir="ltr" style="text-align: center;">C6</td><td><span class="status-badge status-active">פעילה</span></td></tr>
                         <tr><td>Red Wings</td><td dir="ltr" style="text-align: center;">WZ</td><td><span class="status-badge status-active">פעילה</span></td></tr>
+                        <tr><td>Smartwings</td><td dir="ltr" style="text-align: center;">QS</td><td><span class="status-badge status-active">פעילה</span></td></tr>
+                        <tr><td>FLYONE</td><td dir="ltr" style="text-align: center;">5F</td><td><span class="status-badge status-active">פעילה</span></td></tr>
                     </tbody>
                 </table>
             </div>
@@ -346,32 +348,30 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr><td>Air France</td><td dir="ltr" style="text-align: center;">AF</td><td><span class="status-badge status-paused">🗓️ 27.05.2026</span></td></tr>
-                        <tr><td>Hainan Airlines</td><td dir="ltr" style="text-align: center;">HU</td><td><span class="status-badge status-paused">🗓️ 27.05.2026</span></td></tr>
-                        <tr><td>FLYONE</td><td dir="ltr" style="text-align: center;">5F</td><td><span class="status-badge status-paused">🗓️ 27.05.2026</span></td></tr>
-                        <tr><td>KLM</td><td dir="ltr" style="text-align: center;">KL</td><td><span class="status-badge status-paused">🗓️ 28.05.2026</span></td></tr>
                         <tr><td>Wizz Air</td><td dir="ltr" style="text-align: center;">W6</td><td><span class="status-badge status-paused">🗓️ 28.05.2026</span></td></tr>
+                        <tr><td>LOT Polish Airlines</td><td dir="ltr" style="text-align: center;">LO</td><td><span class="status-badge status-paused">🗓️ 30.05.2026</span></td></tr>
                         <tr><td>Bulgaria Air</td><td dir="ltr" style="text-align: center;">FB</td><td><span class="status-badge status-paused">🗓️ 31.05.2026</span></td></tr>
                         <tr><td>Eurowings</td><td dir="ltr" style="text-align: center;">EW</td><td><span class="status-badge status-paused">🗓️ 31.05.2026</span></td></tr>
                         <tr><td>Austrian Airlines</td><td dir="ltr" style="text-align: center;">OS</td><td><span class="status-badge status-paused">🗓️ 01.06.2026</span></td></tr>
-                        <tr><td>Air Europa</td><td dir="ltr" style="text-align: center;">UX</td><td><span class="status-badge status-paused">🗓️ 09.06.2026</span></td></tr>
-                        <tr><td>LOT Polish Airlines</td><td dir="ltr" style="text-align: center;">LO</td><td><span class="status-badge status-paused">🗓️ 12.06.2026</span></td></tr>
+                        <tr><td>Air France</td><td dir="ltr" style="text-align: center;">AF</td><td><span class="status-badge status-paused">🗓️ 03.06.2026</span></td></tr>
+                        <tr><td>KLM</td><td dir="ltr" style="text-align: center;">KL</td><td><span class="status-badge status-paused">🗓️ 04.06.2026</span></td></tr>
                         <tr><td>Georgian Airways</td><td dir="ltr" style="text-align: center;">A9</td><td><span class="status-badge status-paused">🗓️ 16.06.2026</span></td></tr>
+                        <tr><td>Air Europa</td><td dir="ltr" style="text-align: center;">UX</td><td><span class="status-badge status-paused">🗓️ 28.06.2026</span></td></tr>
                         <tr><td>Air India</td><td dir="ltr" style="text-align: center;">AI</td><td><span class="status-badge status-paused">🗓️ 30.06.2026</span></td></tr>
                         <tr><td>Lufthansa</td><td dir="ltr" style="text-align: center;">LH</td><td><span class="status-badge status-paused">🗓️ 01.07.2026</span></td></tr>
                         <tr><td>SWISS</td><td dir="ltr" style="text-align: center;">LX</td><td><span class="status-badge status-paused">🗓️ 01.07.2026</span></td></tr>
-                        <tr><td>Iberia</td><td dir="ltr" style="text-align: center;">IB</td><td><span class="status-badge status-paused">🗓️ 01.07.2026</span></td></tr>
                         <tr><td>ITA Airways</td><td dir="ltr" style="text-align: center;">AZ</td><td><span class="status-badge status-paused">🗓️ 01.07.2026</span></td></tr>
                         <tr><td>airBaltic</td><td dir="ltr" style="text-align: center;">BT</td><td><span class="status-badge status-paused">🗓️ 01.07.2026</span></td></tr>
-                        <tr><td>British Airways</td><td dir="ltr" style="text-align: center;">BA</td><td><span class="status-badge status-paused">🗓️ 01.07.2026</span></td></tr>
                         <tr><td>Transavia France</td><td dir="ltr" style="text-align: center;">TO</td><td><span class="status-badge status-paused">🗓️ 05.07.2026</span></td></tr>
+                        <tr><td>Iberia</td><td dir="ltr" style="text-align: center;">IB</td><td><span class="status-badge status-paused">🗓️ 27.07.2026</span></td></tr>
+                        <tr><td>British Airways</td><td dir="ltr" style="text-align: center;">BA</td><td><span class="status-badge status-paused">🗓️ 01.08.2026</span></td></tr>
                         <tr><td>Animawings</td><td dir="ltr" style="text-align: center;">A2</td><td><span class="status-badge status-paused">🗓️ 10.08.2026</span></td></tr>
                         <tr><td>SAS</td><td dir="ltr" style="text-align: center;">SK</td><td><span class="status-badge status-paused">🗓️ 14.08.2026</span></td></tr>
                         <tr><td>Delta Air Lines</td><td dir="ltr" style="text-align: center;">DL</td><td><span class="status-badge status-paused">🗓️ 05.09.2026</span></td></tr>
                         <tr><td>Air Canada</td><td dir="ltr" style="text-align: center;">AC</td><td><span class="status-badge status-paused">🗓️ 07.09.2026</span></td></tr>
                         <tr><td>United Airlines</td><td dir="ltr" style="text-align: center;">UA</td><td><span class="status-badge status-paused">🗓️ 07.09.2026</span></td></tr>
                         <tr><td>Brussels Airlines</td><td dir="ltr" style="text-align: center;">SN</td><td><span class="status-badge status-paused">🗓️ 24.10.2026</span></td></tr>
-                        <tr><td>Smartwings</td><td dir="ltr" style="text-align: center;">QS</td><td><span class="status-badge status-active">תחדש ב-20.05.2026</span></td></tr>
+                        <tr><td>Hainan Airlines</td><td dir="ltr" style="text-align: center;">HU</td><td><span class="status-badge status-stopped">מושהית</span></td></tr>
                         <tr><td>Neos</td><td dir="ltr" style="text-align: center;">NO</td><td><span class="status-badge status-stopped">מושהית</span></td></tr>
                         <tr><td>Air Seychelles</td><td dir="ltr" style="text-align: center;">HM</td><td><span class="status-badge status-stopped">מושהית</span></td></tr>
                     </tbody>
@@ -418,7 +418,7 @@
     </footer>
 
     <script>
-        // פונקציית חיפוש חכמה שעובדת מצוין עם העיצוב החדש
+        // פונקציית חיפוש חכמה 
         document.getElementById('searchInput').addEventListener('input', function() {
             let filter = this.value.trim().toUpperCase();
             let sectionBlocks = document.querySelectorAll('.section-block');
