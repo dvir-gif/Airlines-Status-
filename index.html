@@ -1,450 +1,607 @@
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>עדכוני חברות תעופה וסטטוס טיסות | עמסלם טורס</title>
-    <!-- ייבוא פונט Heebo -->
-    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --brand-cyan: #0ea5e9; /* תכלת בהיר ומודרני */
-            --brand-blue: #0f172a; 
-            --brand-gradient: linear-gradient(135deg, #0f172a 0%, #2563eb 100%); /* גרדיאנט כחול רויאל חדש */
-            --bg-app: #f8fafc;
-            --text-dark: #0f172a;
-            --text-muted: #64748b;
-            --card-bg: #ffffff;
-            --border-light: #e2e8f0;
-        }
-        
-        body {
-            font-family: 'Heebo', sans-serif;
-            background-color: var(--bg-app);
-            margin: 0;
-            padding: 0;
-            color: var(--text-dark);
-            -webkit-font-smoothing: antialiased;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>עדכוני חברות תעופה וסטטוס טיסות | עמסלם טורס</title>
+<meta name="description" content="סטטוס עדכני של חברות תעופה בנתב\"ג – פעילות, מושהות וחזרות צפויות. עמסלם טורס.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* צבעים מרכזיים חדשים - סגנון אינדיגו וטורקיז */
+    --brand-primary: #4338ca; /* אינדיגו */
+    --brand-secondary: #0284c7; /* כחול ים */
+    --brand-gradient: linear-gradient(135deg, #312e81 0%, #4338ca 50%, #0284c7 100%);
+    
+    --bg-app: #f4f4f5; /* אפור בהיר מאוד רקע כללי */
+    --text-main: #27272a;
+    --text-muted: #71717a;
+    --card-bg: #ffffff;
+    --border: #e4e4e7;
 
-        /* --- הדר (לוגו) --- */
-        header {
-            background-color: #ffffff;
-            padding: 18px 20px;
-            text-align: center;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.04);
-            border-bottom: 4px solid var(--brand-cyan);
-        }
-        header img {
-            max-width: 220px;
-            height: auto;
-            transition: opacity 0.3s ease;
-        }
-        header img:hover {
-            opacity: 0.85;
-        }
+    /* צבעי סטטוסים רעננים */
+    --c-israel: #3b82f6;
+    --c-active: #10b981;
+    --c-paused: #f59e0b;
+    --c-stopped: #f43f5e;
 
-        /* --- אזור כותרת ראשי (Hero) --- */
-        .hero-section {
-            background: var(--brand-gradient);
-            padding: 70px 20px 110px 20px;
-            text-align: center;
-            color: white;
-            border-bottom-left-radius: 60px;
-            border-bottom-right-radius: 60px;
-            box-shadow: 0 20px 50px rgba(37, 99, 235, 0.15);
-            position: relative;
-            overflow: hidden;
-        }
-        .hero-section::before {
-            content: '';
-            position: absolute;
-            top: -50%; left: -50%; width: 200%; height: 200%;
-            background: radial-gradient(circle, rgba(14, 165, 233, 0.15) 0%, rgba(0,0,0,0) 60%);
-            z-index: 0;
-        }
-        .hero-section > * {
-            position: relative;
-            z-index: 1;
-        }
-        
-        .hero-section h1 {
-            margin: 0 0 25px 0;
-            font-size: 3.2em;
-            font-weight: 800;
-            letter-spacing: -1px;
-            text-shadow: 0 4px 15px rgba(0,0,0,0.2);
-        }
-        .hero-section .timestamp {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            padding: 12px 30px;
-            border-radius: 50px;
-            font-size: 1.1em;
-            font-weight: 600;
-            border: 1px solid rgba(255,255,255,0.2);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-        }
+    --shadow-soft: 0 10px 40px -10px rgba(0,0,0,0.08);
+    --shadow-card: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
+  }
 
-        /* --- קונטיינר מרכזי --- */
-        .container {
-            max-width: 1080px;
-            margin: -60px auto 60px;
-            padding: 0 20px;
-            box-sizing: border-box;
-            position: relative;
-            z-index: 2;
-        }
+  * { box-sizing: border-box; }
 
-        /* --- תיבת חיפוש מרחפת --- */
-        .search-container {
-            text-align: center;
-            margin-bottom: 60px;
-        }
-        #searchInput {
-            width: 100%;
-            max-width: 750px;
-            padding: 24px 35px;
-            font-size: 1.2em;
-            border: 2px solid transparent;
-            border-radius: 60px;
-            outline: none;
-            font-family: inherit;
-            background-color: var(--card-bg);
-            box-shadow: 0 15px 35px rgba(15, 23, 42, 0.08);
-            color: var(--text-dark);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        #searchInput::placeholder {
-            color: #94a3b8;
-            font-weight: 400;
-        }
-        #searchInput:focus {
-            transform: translateY(-5px);
-            box-shadow: 0 25px 50px rgba(14, 165, 233, 0.2);
-            border-color: var(--brand-cyan);
-        }
+  body {
+    font-family: 'Heebo', sans-serif;
+    background-color: var(--bg-app);
+    margin: 0; padding: 0;
+    color: var(--text-main);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
 
-        /* --- כותרות קטגוריה --- */
-        .section-block {
-            margin-bottom: 70px;
-        }
-        h2 {
-            color: var(--brand-blue);
-            font-size: 1.7em;
-            font-weight: 800;
-            margin-bottom: 25px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding-right: 5px;
-        }
+  /* ===== הדר (לוגו) ===== */
+  header.site-header {
+    background-color: #fff;
+    padding: 16px 20px;
+    text-align: center;
+    position: sticky; top: 0; z-index: 100;
+    box-shadow: 0 2px 10px rgba(0,0,0,.04);
+  }
+  header.site-header img { max-width: 210px; height: auto; transition: opacity .3s; }
+  header.site-header img:hover { opacity: .85; }
+  .logo-fallback {
+    font-size: 1.4em; font-weight: 800; color: var(--brand-primary);
+    letter-spacing: -.5px;
+  }
+  .logo-fallback span { color: var(--brand-secondary); }
 
-        /* --- עיצוב טבלה - שורות מרחפות חדשות --- */
-        .table-responsive {
-            overflow-x: auto;
-            padding-bottom: 15px;
-        }
-        table {
-            width: 100%;
-            border-collapse: separate;
-            border-spacing: 0 12px;
-            text-align: right;
-        }
-        th {
-            color: #475569;
-            font-weight: 700;
-            font-size: 0.95em;
-            padding: 0 30px 5px 30px;
-            white-space: nowrap;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        td {
-            padding: 24px 30px;
-            background-color: var(--card-bg);
-            vertical-align: middle;
-            color: var(--text-dark);
-            border-top: 1px solid var(--border-light);
-            border-bottom: 1px solid var(--border-light);
-        }
-        td:first-child {
-            border-right: 1px solid var(--border-light);
-            border-top-right-radius: 20px;
-            border-bottom-right-radius: 20px;
-            font-weight: 700;
-            font-size: 1.15em;
-            color: var(--brand-blue);
-            border-right: 5px solid transparent; 
-        }
-        td:last-child {
-            border-left: 1px solid var(--border-light);
-            border-top-left-radius: 20px;
-            border-bottom-left-radius: 20px;
-        }
-        
-        /* צבעי פסים בצד ימין לפי קטגוריות */
-        .section-israel td:first-child { border-right-color: #3b82f6; }
-        .section-active td:first-child { border-right-color: #10b981; }
-        .section-paused td:first-child { border-right-color: #f59e0b; }
-        .section-stopped td:first-child { border-right-color: #ef4444; }
+  /* ===== אזור כותרת (Hero) ===== */
+  .hero-section {
+    background: var(--brand-gradient);
+    padding: 70px 20px 140px; /* ריווח תחתון גדול בשביל הפאנל הצף */
+    text-align: center; color: #fff;
+    position: relative; overflow: hidden;
+  }
+  /* דוגמת רשת עדינה ברקע */
+  .hero-section::before {
+    content: ''; position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-image: radial-gradient(rgba(255, 255, 255, 0.15) 1px, transparent 1px);
+    background-size: 24px 24px;
+    opacity: 0.5; z-index: 0;
+  }
+  .hero-section > * { position: relative; z-index: 1; }
+  .hero-section h1 {
+    margin: 0 0 20px; font-size: 3.2em; font-weight: 800;
+    letter-spacing: -1px; text-shadow: 0 2px 10px rgba(0,0,0,.15);
+  }
+  .timestamp {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    padding: 10px 24px; border-radius: 12px;
+    font-size: 1.05em; font-weight: 500;
+    border: 1px solid rgba(255,255,255,.1);
+  }
+  .timestamp svg { flex-shrink: 0; opacity: 0.8; }
 
-        tr {
-            box-shadow: 0 4px 10px rgba(0,0,0,0.02);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        tr:hover td {
-            background-color: #f8fafc;
-        }
-        tr:hover {
-            transform: translateX(-5px) translateY(-2px); /* אפקט תזוזה הצידה ולמעלה */
-            box-shadow: 8px 12px 25px rgba(0,0,0,0.06);
-        }
+  /* ===== קונטיינר מרכזי ולוח בקרה ===== */
+  .container {
+    max-width: 1100px; margin: 0 auto 60px;
+    padding: 0 20px; position: relative; z-index: 2;
+  }
 
-        /* --- תגיות סטטוס מודרניות --- */
-        .status-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 8px 20px;
-            border-radius: 40px;
-            font-size: 0.95em;
-            font-weight: 700;
-            letter-spacing: 0.3px;
-        }
-        .status-active { 
-            background-color: #ecfdf5; 
-            color: #059669; 
-            border: 1px solid #6ee7b7;
-        }
-        .status-paused { 
-            background-color: #fffbeb; 
-            color: #d97706; 
-            border: 1px solid #fcd34d;
-        }
-        .status-stopped { 
-            background-color: #fef2f2; 
-            color: #dc2626; 
-            border: 1px solid #fca5a5;
-        }
+  .control-panel {
+    background: var(--card-bg);
+    border-radius: 20px;
+    padding: 30px;
+    margin-top: -80px; /* מרים את הפאנל על ה-Hero */
+    margin-bottom: 50px;
+    box-shadow: var(--shadow-soft);
+    display: flex; flex-direction: column; gap: 24px;
+    border: 1px solid rgba(0,0,0,0.02);
+  }
 
-        footer {
-            text-align: center;
-            padding: 40px 20px;
-            color: var(--text-muted);
-            font-size: 1.05em;
-            margin-top: 60px;
-            background-color: #e2e8f0;
-            border-top: 1px solid #cbd5e1;
-        }
-        
-        /* התאמה למובייל */
-        @media (max-width: 768px) {
-            .hero-section { padding: 50px 15px 90px 15px; border-bottom-left-radius: 40px; border-bottom-right-radius: 40px;}
-            .hero-section h1 { font-size: 2.3em; }
-            #searchInput { padding: 20px 25px; font-size: 1.05em; }
-            table { border-spacing: 0 10px; }
-            th, td { padding: 18px 15px; font-size: 0.95em; }
-            td:first-child { font-size: 1.05em; }
-            .status-badge { padding: 6px 12px; font-size: 0.85em; }
-            header img { max-width: 180px; }
-            tr:hover { transform: translateY(-2px); } /* ביטול תזוזה הצידה במובייל */
-        }
-    </style>
+  /* חיפוש */
+  .search-wrap { position: relative; width: 100%; }
+  #searchInput {
+    width: 100%; padding: 18px 50px 18px 20px;
+    font-size: 1.1em; border: 2px solid var(--border); border-radius: 14px;
+    outline: none; font-family: inherit; background: #fafafa;
+    color: var(--text-main); transition: all .3s ease;
+  }
+  #searchInput::placeholder { color: #a1a1aa; font-weight: 400; }
+  #searchInput:focus {
+    background: #fff; border-color: var(--brand-primary);
+    box-shadow: 0 0 0 4px rgba(67, 56, 202, 0.1);
+  }
+  .search-icon {
+    position: absolute; right: 18px; top: 50%; transform: translateY(-50%);
+    color: #a1a1aa; pointer-events: none;
+  }
+  .search-clear {
+    position: absolute; left: 16px; top: 50%; transform: translateY(-50%);
+    width: 28px; height: 28px; border: none; border-radius: 50%;
+    background: #e4e4e7; color: #52525b; cursor: pointer;
+    display: none; align-items: center; justify-content: center;
+    font-size: 1em; line-height: 1; transition: background .2s;
+  }
+  .search-clear:hover { background: #d4d4d8; }
+  .search-clear.show { display: inline-flex; }
+
+  /* סרגל כלים תחתון (סינון ומיון) */
+  .controls-footer {
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px;
+  }
+  
+  .toolbar {
+    display: flex; flex-wrap: wrap; gap: 8px; flex: 1;
+  }
+  .filter-chip {
+    border: 1px solid var(--border); background: #fff;
+    color: var(--text-muted); font-family: inherit; font-weight: 600;
+    font-size: .95em; padding: 8px 16px; border-radius: 10px;
+    cursor: pointer; transition: all .2s; display: inline-flex; align-items: center; gap: 8px;
+  }
+  .filter-chip:hover { border-color: var(--brand-secondary); color: var(--brand-secondary); }
+  .filter-chip .count {
+    background: #f4f4f5; color: var(--text-muted);
+    border-radius: 6px; padding: 2px 8px; font-size: .85em; font-weight: 700;
+  }
+  /* מצב לחוץ לסינון */
+  .filter-chip[aria-pressed="true"] {
+    background: var(--brand-primary); color: #fff; border-color: var(--brand-primary);
+  }
+  .filter-chip[aria-pressed="true"] .count { background: rgba(255,255,255,.2); color: #fff; }
+  .filter-chip[data-cat="israel"][aria-pressed="true"]  { background: var(--c-israel);  border-color: var(--c-israel); }
+  .filter-chip[data-cat="active"][aria-pressed="true"]   { background: var(--c-active);   border-color: var(--c-active); }
+  .filter-chip[data-cat="paused"][aria-pressed="true"]   { background: var(--c-paused);   border-color: var(--c-paused); }
+  .filter-chip[data-cat="stopped"][aria-pressed="true"]  { background: var(--c-stopped);  border-color: var(--c-stopped); }
+
+  .sort-bar {
+    display: flex; align-items: center; gap: 10px; color: var(--text-muted); font-size: .95em; font-weight: 600;
+  }
+  #sortSelect {
+    font-family: inherit; font-weight: 600; font-size: .95em;
+    border: 1px solid var(--border); border-radius: 10px;
+    padding: 8px 14px; background: #fff; color: var(--text-main); cursor: pointer; outline: none;
+    transition: border-color .2s;
+  }
+  #sortSelect:focus { border-color: var(--brand-primary); }
+
+  /* ===== כותרות קטגוריה וטבלאות ===== */
+  .section-block { 
+    background: var(--card-bg);
+    border-radius: 20px;
+    box-shadow: var(--shadow-card);
+    margin-bottom: 40px; 
+    border: 1px solid var(--border);
+    overflow: hidden;
+  }
+  .section-header {
+    padding: 24px 30px;
+    border-bottom: 1px solid var(--border);
+    background: #fafafa;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .section-block h2 {
+    color: var(--brand-primary); font-size: 1.4em; font-weight: 800;
+    margin: 0; display: flex; align-items: center; gap: 10px;
+  }
+  .section-block .sec-count {
+    font-size: .85em; font-weight: 700; color: var(--text-muted);
+    background: #e4e4e7; border-radius: 8px; padding: 4px 12px;
+  }
+
+  .table-responsive { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; text-align: right; }
+  th {
+    color: var(--text-muted); font-weight: 700; font-size: .9em;
+    padding: 16px 30px; white-space: nowrap;
+    border-bottom: 2px solid var(--border);
+  }
+  th.center, td.center { text-align: center; }
+  td {
+    padding: 18px 30px; vertical-align: middle;
+    color: var(--text-main); border-bottom: 1px solid var(--border);
+  }
+  td:first-child { font-weight: 700; font-size: 1.1em; color: var(--text-main); }
+  
+  .iata {
+    font-family: 'Courier New', Courier, monospace; font-weight: 700;
+    color: var(--text-muted); background: #f4f4f5; padding: 4px 8px; border-radius: 6px;
+  }
+
+  tbody tr { transition: background-color .2s ease; border-right: 4px solid transparent; }
+  tbody tr:last-child td { border-bottom: none; }
+  tbody tr:hover { background-color: #f8fafc; }
+  
+  /* הדגשת שורה צדדית לפי קטגוריה בהובר */
+  .section-israel tbody tr:hover { border-right-color: var(--c-israel); }
+  .section-active tbody tr:hover { border-right-color: var(--c-active); }
+  .section-paused tbody tr:hover { border-right-color: var(--c-paused); }
+  .section-stopped tbody tr:hover { border-right-color: var(--c-stopped); }
+
+  /* הדגשת טקסט בחיפוש */
+  mark.hl { background: #fef08a; color: #854d0e; border-radius: 4px; padding: 0 2px; }
+
+  /* ===== תגיות סטטוס ===== */
+  .status-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 6px 14px; border-radius: 8px; font-size: .9em; font-weight: 700;
+    letter-spacing: .3px; white-space: nowrap;
+  }
+  .status-active  { background: #d1fae5; color: #065f46; }
+  .status-paused  { background: #fef3c7; color: #92400e; }
+  .status-stopped { background: #ffe4e6; color: #be123c; }
+
+  /* ===== הודעת ללא תוצאות ===== */
+  .no-results {
+    display: none; text-align: center; padding: 60px 20px;
+    color: var(--text-muted); font-size: 1.2em; font-weight: 600;
+    background: var(--card-bg); border-radius: 20px; box-shadow: var(--shadow-card);
+  }
+  .no-results.show { display: block; }
+  .no-results .big { font-size: 3em; display: block; margin-bottom: 15px; opacity: 0.5; }
+
+  /* ===== כותרת תחתונה ===== */
+  footer {
+    text-align: center; padding: 40px 20px; color: var(--text-muted);
+    font-size: 1em; margin-top: 60px; border-top: 1px solid var(--border);
+  }
+  footer .legend {
+    display: flex; flex-wrap: wrap; gap: 20px; justify-content: center;
+    margin-bottom: 24px; font-size: .95em; font-weight: 600;
+  }
+  footer .legend span { display: inline-flex; align-items: center; gap: 8px; }
+  footer .dot { width: 10px; height: 10px; border-radius: 3px; }
+
+  /* ===== אנימציות ===== */
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  .section-block { animation: fadeUp .5s ease both; }
+  .section-block:nth-of-type(2) { animation-delay: .05s; }
+  .section-block:nth-of-type(3) { animation-delay: .1s; }
+  .section-block:nth-of-type(4) { animation-delay: .15s; }
+
+  /* ===== מובייל ===== */
+  @media (max-width: 768px) {
+    .hero-section { padding: 50px 15px 120px; border-bottom-left-radius: 40px; border-bottom-right-radius: 40px; }
+    .hero-section h1 { font-size: 2.2em; }
+    .control-panel { padding: 20px; margin-top: -60px; gap: 16px; }
+    .controls-footer { flex-direction: column; align-items: stretch; }
+    .sort-bar { justify-content: space-between; }
+    .section-header { padding: 18px 20px; }
+    th, td { padding: 14px 20px; font-size: .92em; }
+    .status-badge { padding: 4px 10px; font-size: .85em; }
+    header.site-header img { max-width: 170px; }
+  }
+</style>
 </head>
 <body>
 
-    <header>
-        <img src="logo 24 (3).jpg" alt="Amsalem Global Travel Management" id="main-logo">
-    </header>
-    
-    <div class="hero-section">
-        <h1 class="main-title">עדכוני חברות תעופה</h1>
-        <div class="timestamp">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-            סטטוס מעודכן ל-23.05.2026 בשעה 10:45
-        </div>
+<header class="site-header">
+  <img src="logo 24 (3).jpg" alt="Amsalem Global Travel Management"
+       onerror="this.style.display='none';this.insertAdjacentHTML('afterend','<div class=\'logo-fallback\'>Amsalem <span>Global</span></div>')">
+</header>
+
+<div class="hero-section">
+  <h1>עדכוני טיסות נתב"ג</h1>
+  <div class="timestamp">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+    <span id="liveStamp">סטטוס מעודכן ל-01.06.2026 בשעה 08:00</span>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- לוח בקרה צף (חיפוש, סינון, מיון) -->
+  <div class="control-panel">
+    <div class="search-wrap">
+      <span class="search-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+      </span>
+      <input type="text" id="searchInput" autocomplete="off"
+             placeholder="חפש חברת תעופה, קוד IATA או סטטוס..."
+             aria-label="חיפוש חברת תעופה">
+      <button class="search-clear" id="searchClear" aria-label="נקה חיפוש" title="נקה">✕</button>
     </div>
 
-    <div class="container">
-        
-        <div class="search-container">
-            <input type="text" id="searchInput" placeholder="🔍 חפש חברת תעופה, קוד IATA או סטטוס...">
-        </div>
-
-        <div class="section-block section-israel">
-            <h2>🇮🇱 חברות תעופה ישראליות</h2>
-            <div class="table-responsive">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>חברת תעופה</th>
-                            <th style="text-align: center;">קוד IATA</th>
-                            <th>סטטוס</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr><td>El Al</td><td dir="ltr" style="text-align: center;">LY</td><td><span class="status-badge status-active">✈️ פעילה בנתב"ג</span></td></tr>
-                        <tr><td>Israir</td><td dir="ltr" style="text-align: center;">6H</td><td><span class="status-badge status-active">✈️ פעילה בנתב"ג</span></td></tr>
-                        <tr><td>Arkia</td><td dir="ltr" style="text-align: center;">IZ</td><td><span class="status-badge status-active">✈️ פעילה בנתב"ג</span></td></tr>
-                        <tr><td>Air Haifa</td><td dir="ltr" style="text-align: center;">E2</td><td><span class="status-badge status-active">✈️ פעילה (חיפה)</span></td></tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <div class="section-block section-active">
-            <h2>🌍 חברות זרות - פעילות בנתב"ג</h2>
-            <div class="table-responsive">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>חברת תעופה</th>
-                            <th style="text-align: center;">קוד IATA</th>
-                            <th>סטטוס</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr><td>Aegean Airlines</td><td dir="ltr" style="text-align: center;">A3</td><td><span class="status-badge status-active">פעילה</span></td></tr>
-                        <tr><td>Uzbekistan Airways</td><td dir="ltr" style="text-align: center;">HY</td><td><span class="status-badge status-active">פעילה</span></td></tr>
-                        <tr><td>Azimuth</td><td dir="ltr" style="text-align: center;">A4</td><td><span class="status-badge status-active">פעילה</span></td></tr>
-                        <tr><td>Azerbaijan Airlines</td><td dir="ltr" style="text-align: center;">J2</td><td><span class="status-badge status-active">פעילה</span></td></tr>
-                        <tr><td>Etihad Airways</td><td dir="ltr" style="text-align: center;">EY</td><td><span class="status-badge status-active">פעילה</span></td></tr>
-                        <tr><td>Ethiopian Airlines</td><td dir="ltr" style="text-align: center;">ET</td><td><span class="status-badge status-active">פעילה</span></td></tr>
-                        <tr><td>Belavia</td><td dir="ltr" style="text-align: center;">B2</td><td><span class="status-badge status-active">פעילה</span></td></tr>
-                        <tr><td>Bluebird Airways</td><td dir="ltr" style="text-align: center;">BZ</td><td><span class="status-badge status-active">פעילה</span></td></tr>
-                        <tr><td>HiSky</td><td dir="ltr" style="text-align: center;">H4</td><td><span class="status-badge status-active">פעילה</span></td></tr>
-                        <tr><td>TAROM</td><td dir="ltr" style="text-align: center;">RO</td><td><span class="status-badge status-active">פעילה</span></td></tr>
-                        <tr><td>TUS Airways</td><td dir="ltr" style="text-align: center;">U8</td><td><span class="status-badge status-active">פעילה</span></td></tr>
-                        <tr><td>Cyprus Airways</td><td dir="ltr" style="text-align: center;">CY</td><td><span class="status-badge status-active">פעילה</span></td></tr>
-                        <tr><td>SkyUp</td><td dir="ltr" style="text-align: center;">PQ</td><td><span class="status-badge status-active">פעילה</span></td></tr>
-                        <tr><td>Sky Express</td><td dir="ltr" style="text-align: center;">GQ</td><td><span class="status-badge status-active">פעילה</span></td></tr>
-                        <tr><td>flydubai</td><td dir="ltr" style="text-align: center;">FZ</td><td><span class="status-badge status-active">פעילה</span></td></tr>
-                        <tr><td>Centrum Air</td><td dir="ltr" style="text-align: center;">C6</td><td><span class="status-badge status-active">פעילה</span></td></tr>
-                        <tr><td>Red Wings</td><td dir="ltr" style="text-align: center;">WZ</td><td><span class="status-badge status-active">פעילה</span></td></tr>
-                        <tr><td>Smartwings</td><td dir="ltr" style="text-align: center;">QS</td><td><span class="status-badge status-active">פעילה</span></td></tr>
-                        <tr><td>FLYONE</td><td dir="ltr" style="text-align: center;">5F</td><td><span class="status-badge status-active">פעילה</span></td></tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <div class="section-block section-paused">
-            <h2>⏸️ חברות זרות - פעילות מושהית</h2>
-            <div class="table-responsive">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>חברת תעופה</th>
-                            <th style="text-align: center;">קוד IATA</th>
-                            <th>מועד חזרה משוער</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr><td>Wizz Air</td><td dir="ltr" style="text-align: center;">W6</td><td><span class="status-badge status-paused">🗓️ 28.05.2026</span></td></tr>
-                        <tr><td>LOT Polish Airlines</td><td dir="ltr" style="text-align: center;">LO</td><td><span class="status-badge status-paused">🗓️ 30.05.2026</span></td></tr>
-                        <tr><td>Bulgaria Air</td><td dir="ltr" style="text-align: center;">FB</td><td><span class="status-badge status-paused">🗓️ 31.05.2026</span></td></tr>
-                        <tr><td>Eurowings</td><td dir="ltr" style="text-align: center;">EW</td><td><span class="status-badge status-paused">🗓️ 31.05.2026</span></td></tr>
-                        <tr><td>Austrian Airlines</td><td dir="ltr" style="text-align: center;">OS</td><td><span class="status-badge status-paused">🗓️ 01.06.2026</span></td></tr>
-                        <tr><td>Air France</td><td dir="ltr" style="text-align: center;">AF</td><td><span class="status-badge status-paused">🗓️ 03.06.2026</span></td></tr>
-                        <tr><td>KLM</td><td dir="ltr" style="text-align: center;">KL</td><td><span class="status-badge status-paused">🗓️ 04.06.2026</span></td></tr>
-                        <tr><td>Georgian Airways</td><td dir="ltr" style="text-align: center;">A9</td><td><span class="status-badge status-paused">🗓️ 16.06.2026</span></td></tr>
-                        <tr><td>Air Europa</td><td dir="ltr" style="text-align: center;">UX</td><td><span class="status-badge status-paused">🗓️ 28.06.2026</span></td></tr>
-                        <tr><td>Air India</td><td dir="ltr" style="text-align: center;">AI</td><td><span class="status-badge status-paused">🗓️ 30.06.2026</span></td></tr>
-                        <tr><td>Lufthansa</td><td dir="ltr" style="text-align: center;">LH</td><td><span class="status-badge status-paused">🗓️ 01.07.2026</span></td></tr>
-                        <tr><td>SWISS</td><td dir="ltr" style="text-align: center;">LX</td><td><span class="status-badge status-paused">🗓️ 01.07.2026</span></td></tr>
-                        <tr><td>ITA Airways</td><td dir="ltr" style="text-align: center;">AZ</td><td><span class="status-badge status-paused">🗓️ 01.07.2026</span></td></tr>
-                        <tr><td>airBaltic</td><td dir="ltr" style="text-align: center;">BT</td><td><span class="status-badge status-paused">🗓️ 01.07.2026</span></td></tr>
-                        <tr><td>Transavia France</td><td dir="ltr" style="text-align: center;">TO</td><td><span class="status-badge status-paused">🗓️ 05.07.2026</span></td></tr>
-                        <tr><td>Iberia</td><td dir="ltr" style="text-align: center;">IB</td><td><span class="status-badge status-paused">🗓️ 27.07.2026</span></td></tr>
-                        <tr><td>British Airways</td><td dir="ltr" style="text-align: center;">BA</td><td><span class="status-badge status-paused">🗓️ 01.08.2026</span></td></tr>
-                        <tr><td>Animawings</td><td dir="ltr" style="text-align: center;">A2</td><td><span class="status-badge status-paused">🗓️ 10.08.2026</span></td></tr>
-                        <tr><td>SAS</td><td dir="ltr" style="text-align: center;">SK</td><td><span class="status-badge status-paused">🗓️ 14.08.2026</span></td></tr>
-                        <tr><td>Delta Air Lines</td><td dir="ltr" style="text-align: center;">DL</td><td><span class="status-badge status-paused">🗓️ 05.09.2026</span></td></tr>
-                        <tr><td>Air Canada</td><td dir="ltr" style="text-align: center;">AC</td><td><span class="status-badge status-paused">🗓️ 07.09.2026</span></td></tr>
-                        <tr><td>United Airlines</td><td dir="ltr" style="text-align: center;">UA</td><td><span class="status-badge status-paused">🗓️ 07.09.2026</span></td></tr>
-                        <tr><td>Brussels Airlines</td><td dir="ltr" style="text-align: center;">SN</td><td><span class="status-badge status-paused">🗓️ 24.10.2026</span></td></tr>
-                        <tr><td>Hainan Airlines</td><td dir="ltr" style="text-align: center;">HU</td><td><span class="status-badge status-stopped">מושהית</span></td></tr>
-                        <tr><td>Neos</td><td dir="ltr" style="text-align: center;">NO</td><td><span class="status-badge status-stopped">מושהית</span></td></tr>
-                        <tr><td>Air Seychelles</td><td dir="ltr" style="text-align: center;">HM</td><td><span class="status-badge status-stopped">מושהית</span></td></tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <div class="section-block section-stopped">
-            <h2>🛑 חברות שאינן פעילות החל מ-07.10.2023</h2>
-            <div class="table-responsive">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>חברת תעופה</th>
-                            <th style="text-align: center;">קוד IATA</th>
-                            <th>סטטוס נוכחי</th>
-                            <th>מועד חזרה משוער</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr><td>Condor</td><td dir="ltr" style="text-align: center;">DE</td><td>צפויה לחדש טיסות</td><td><span class="status-badge status-paused">01.07.2026</span></td></tr>
-                        <tr><td>TAP Air Portugal</td><td dir="ltr" style="text-align: center;">TP</td><td>צפויה לחדש טיסות</td><td><span class="status-badge status-paused">08.07.2026</span></td></tr>
-                        <tr><td>American Airlines</td><td dir="ltr" style="text-align: center;">AA</td><td>צפויה לחדש טיסות</td><td><span class="status-badge status-paused">08.09.2026</span></td></tr>
-                        <tr><td>easyJet</td><td dir="ltr" style="text-align: center;">U2</td><td>צפויה לחדש טיסות</td><td><span class="status-badge status-paused">25.10.2026</span></td></tr>
-                        <tr><td>Air Serbia</td><td dir="ltr" style="text-align: center;">JU</td><td><span class="status-badge status-stopped">מושהה</span></td><td>לא פורסם</td></tr>
-                        <tr><td>Emirates</td><td dir="ltr" style="text-align: center;">EK</td><td><span class="status-badge status-stopped">מושהה</span></td><td>לא פורסם</td></tr>
-                        <tr><td>Gulf Air</td><td dir="ltr" style="text-align: center;">GF</td><td><span class="status-badge status-stopped">מושהה</span></td><td>לא פורסם</td></tr>
-                        <tr><td>Vueling</td><td dir="ltr" style="text-align: center;">VY</td><td><span class="status-badge status-stopped">מושהה</span></td><td>לא פורסם</td></tr>
-                        <tr><td>Norwegian Air</td><td dir="ltr" style="text-align: center;">DY</td><td><span class="status-badge status-stopped">מושהה</span></td><td>לא פורסם</td></tr>
-                        <tr><td>Finnair</td><td dir="ltr" style="text-align: center;">AY</td><td><span class="status-badge status-stopped">מושהה</span></td><td>לא פורסם</td></tr>
-                        <tr><td>Korean Air</td><td dir="ltr" style="text-align: center;">KE</td><td><span class="status-badge status-stopped">מושהה</span></td><td>לא פורסם</td></tr>
-                        <tr><td>Cathay Pacific</td><td dir="ltr" style="text-align: center;">CX</td><td><span class="status-badge status-stopped">מושהה</span></td><td>לא פורסם</td></tr>
-                        <tr><td>Royal Air Maroc</td><td dir="ltr" style="text-align: center;">AT</td><td><span class="status-badge status-stopped">מושהה</span></td><td>לא פורסם</td></tr>
-                        <tr><td>Royal Jordanian</td><td dir="ltr" style="text-align: center;">RJ</td><td><span class="status-badge status-stopped">מושהה</span></td><td>לא פורסם</td></tr>
-                        <tr><td>Ryanair</td><td dir="ltr" style="text-align: center;">FR</td><td><span class="status-badge status-stopped">מושהה</span></td><td>לא פורסם</td></tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+    <div class="controls-footer">
+      <div class="toolbar" id="filterBar" role="group" aria-label="סינון לפי קטגוריה"></div>
+      
+      <div class="sort-bar">
+        <label for="sortSelect">מיון:</label>
+        <select id="sortSelect">
+          <option value="default">ברירת מחדל</option>
+          <option value="name">לפי שם (א׳-ת׳)</option>
+          <option value="date">לפי מועד חזרה</option>
+        </select>
+      </div>
     </div>
+  </div>
 
-    <footer>
-        &copy; 2026 - סטטוס טיסות - Amsalem Global Travel Management
-    </footer>
+  <div id="sections"></div>
 
-    <script>
-        // פונקציית חיפוש חכמה 
-        document.getElementById('searchInput').addEventListener('input', function() {
-            let filter = this.value.trim().toUpperCase();
-            let sectionBlocks = document.querySelectorAll('.section-block');
+  <div class="no-results" id="noResults">
+    <span class="big">🔍</span>
+    לא נמצאו חברות תעופה התואמות לחיפוש
+  </div>
 
-            sectionBlocks.forEach(block => {
-                let tbody = block.querySelector('tbody');
-                if(!tbody) return;
-                
-                let trs = tbody.getElementsByTagName('tr');
-                let hasVisibleRows = false;
+</div>
 
-                for (let i = 0; i < trs.length; i++) {
-                    let rowText = trs[i].textContent || trs[i].innerText;
-                    if (rowText.toUpperCase().indexOf(filter) > -1) {
-                        trs[i].style.display = ""; 
-                        hasVisibleRows = true;
-                    } else {
-                        trs[i].style.display = "none";
-                    }
-                }
-                
-                // מסתיר את כל בלוק הקטגוריה אם אין בה אף שורה מתאימה
-                block.style.display = hasVisibleRows ? "" : "none";
-            });
-        });
-    </script>
+<footer>
+  <div class="legend">
+    <span><i class="dot" style="background:var(--c-israel)"></i> ישראליות</span>
+    <span><i class="dot" style="background:var(--c-active)"></i> פעילות</span>
+    <span><i class="dot" style="background:var(--c-paused)"></i> חזרה צפויה</span>
+    <span><i class="dot" style="background:var(--c-stopped)"></i> אינן פעילות</span>
+  </div>
+  &copy; 2026 - Amsalem Global Travel Management
+</footer>
+
+<script>
+/* =========================================================
+   נתוני חברות התעופה
+   date: בפורמט YYYY-MM-DD (לצורך מיון). null = ללא תאריך.
+========================================================= */
+const DATA = {
+  israel: {
+    title: '🇮🇱 חברות תעופה ישראליות',
+    color: 'var(--c-israel)',
+    cols: ['חברת תעופה', 'קוד IATA', 'סטטוס'],
+    rows: [
+      { name: 'El Al',     iata: 'LY', status: '✈️ פעילה בנתב"ג', cls: 'active' },
+      { name: 'Israir',    iata: '6H', status: '✈️ פעילה בנתב"ג', cls: 'active' },
+      { name: 'Arkia',     iata: 'IZ', status: '✈️ פעילה בנתב"ג', cls: 'active' },
+      { name: 'Air Haifa', iata: 'E2', status: '✈️ פעילה (חיפה)', cls: 'active' },
+    ]
+  },
+  active: {
+    title: '🌍 חברות זרות - פעילות בנתב"ג',
+    color: 'var(--c-active)',
+    cols: ['חברת תעופה', 'קוד IATA', 'סטטוס'],
+    rows: [
+      'Aegean Airlines|A3','Uzbekistan Airways|HY','Azimuth|A4','Azerbaijan Airlines|J2',
+      'Etihad Airways|EY','Ethiopian Airlines|ET','Belavia|B2','Bluebird Airways|BZ',
+      'HiSky|H4','TAROM|RO','TUS Airways|U8','Cyprus Airways|CY','SkyUp|PQ',
+      'Sky Express|GQ','flydubai|FZ','Centrum Air|C6','Red Wings|WZ','Smartwings|QS',
+      'FLYONE|5F','Wizz Air|W6','LOT Polish Airlines|LO'
+    ].map(s => { const [name, iata] = s.split('|'); return { name, iata, status: 'פעילה', cls: 'active' }; })
+  },
+  paused: {
+    title: '⏸️ חברות זרות - פעילות מושהית',
+    color: 'var(--c-paused)',
+    cols: ['חברת תעופה', 'קוד IATA', 'מועד חזרה משוער'],
+    rows: [
+      { name: 'Austrian Airlines',  iata: 'OS', date: '2026-06-01' },
+      { name: 'Bulgaria Air',       iata: 'FB', date: '2026-06-03' },
+      { name: 'Air France',         iata: 'AF', date: '2026-06-07' },
+      { name: 'Neos',               iata: 'NO', date: '2026-06-10' },
+      { name: 'KLM',                iata: 'KL', date: '2026-06-17' },
+      { name: 'Air Europa',         iata: 'UX', date: '2026-06-28' },
+      { name: 'Georgian Airways',   iata: 'A9', date: '2026-07-01' },
+      { name: 'ITA Airways',        iata: 'AZ', date: '2026-07-01' },
+      { name: 'airBaltic',          iata: 'BT', date: '2026-07-01' },
+      { name: 'Eurowings',          iata: 'EW', date: '2026-07-01' },
+      { name: 'Lufthansa',          iata: 'LH', date: '2026-07-01' },
+      { name: 'SWISS',              iata: 'LX', date: '2026-07-01' },
+      { name: 'Transavia France',   iata: 'TO', date: '2026-07-05' },
+      { name: 'Iberia',             iata: 'IB', date: '2026-07-27' },
+      { name: 'Air India',          iata: 'AI', date: '2026-07-31' },
+      { name: 'British Airways',    iata: 'BA', date: '2026-08-01' },
+      { name: 'Animawings',         iata: 'A2', date: '2026-08-10' },
+      { name: 'Delta Air Lines',    iata: 'DL', date: '2026-09-05' },
+      { name: 'Air Canada',         iata: 'AC', date: '2026-09-07' },
+      { name: 'United Airlines',    iata: 'UA', date: '2026-09-07' },
+      { name: 'SAS',                iata: 'SK', date: '2026-09-10' },
+      { name: 'Brussels Airlines',  iata: 'SN', date: '2026-10-24' },
+      { name: 'Hainan Airlines',    iata: 'HU', date: null, label: 'מושהית', cls: 'stopped' },
+      { name: 'Air Seychelles',     iata: 'HM', date: null, label: 'מושהית', cls: 'stopped' },
+    ].map(r => ({
+      ...r,
+      cls: r.cls || 'paused',
+      status: r.label || ('🗓️ ' + formatDate(r.date))
+    }))
+  },
+  stopped: {
+    title: '🛑 חברות שאינן פעילות החל מ-07.10.2023',
+    color: 'var(--c-stopped)',
+    cols: ['חברת תעופה', 'קוד IATA', 'סטטוס נוכחי', 'מועד חזרה משוער'],
+    rows: [
+      { name: 'Condor',           iata: 'DE', note: 'צפויה לחדש טיסות', date: '2026-07-01', cls: 'paused' },
+      { name: 'TAP Air Portugal', iata: 'TP', note: 'צפויה לחדש טיסות', date: '2026-07-08', cls: 'paused' },
+      { name: 'American Airlines',iata: 'AA', note: 'צפויה לחדש טיסות', date: '2027-01-05', cls: 'paused' },
+      { name: 'easyJet',          iata: 'U2', note: 'השהתה טיסות', date: null, label: 'מושהה', cls: 'stopped' },
+      { name: 'Air Serbia',       iata: 'JU', note: 'השהתה טיסות', date: null, label: 'מושהה', cls: 'stopped' },
+      { name: 'Emirates',         iata: 'EK', note: 'השהתה טיסות', date: null, label: 'מושהה', cls: 'stopped' },
+      { name: 'Gulf Air',         iata: 'GF', note: 'השהתה טיסות', date: null, label: 'מושהה', cls: 'stopped' },
+      { name: 'Vueling',          iata: 'VY', note: 'השהתה טיסות', date: null, label: 'מושהה', cls: 'stopped' },
+      { name: 'Norwegian Air',    iata: 'DY', note: 'השהתה טיסות', date: null, label: 'מושהה', cls: 'stopped' },
+      { name: 'Finnair',          iata: 'AY', note: 'השהתה טיסות', date: null, label: 'מושהה', cls: 'stopped' },
+      { name: 'Korean Air',       iata: 'KE', note: 'השהתה טיסות', date: null, label: 'מושהה', cls: 'stopped' },
+      { name: 'Cathay Pacific',   iata: 'CX', note: 'השהתה טיסות', date: null, label: 'מושהה', cls: 'stopped' },
+      { name: 'Royal Air Maroc',  iata: 'AT', note: 'השהתה טיסות', date: null, label: 'מושהה', cls: 'stopped' },
+      { name: 'Royal Jordanian',  iata: 'RJ', note: 'השהתה טיסות', date: null, label: 'מושהה', cls: 'stopped' },
+      { name: 'Ryanair',          iata: 'FR', note: 'השהתה טיסות', date: null, label: 'מושהה', cls: 'stopped' },
+    ]
+  }
+};
+
+function formatDate(iso) {
+  if (!iso) return '';
+  const [y, m, d] = iso.split('-');
+  return `${d}.${m}.${y}`;
+}
+
+/* ---------- בניית הטבלאות ---------- */
+function buildSections() {
+  const wrap = document.getElementById('sections');
+  wrap.innerHTML = '';
+  Object.entries(DATA).forEach(([key, sec]) => {
+    const block = document.createElement('section');
+    block.className = `section-block section-${key}`;
+    block.dataset.cat = key;
+
+    const hasNote = sec.cols.length === 4;
+
+    const head = sec.cols.map((c, i) =>
+      `<th class="${i === 1 ? 'center' : ''}">${c}</th>`).join('');
+
+    const body = sec.rows.map(r => {
+      const statusCell = `<span class="status-badge status-${r.cls}">${r.status ?? (r.label || formatDate(r.date))}</span>`;
+      const cells = [
+        `<td data-field="name">${r.name}</td>`,
+        `<td class="center"><span class="iata" dir="ltr">${r.iata}</span></td>`,
+      ];
+      if (hasNote) {
+        cells.push(`<td>${r.note ?? ''}</td>`);
+        cells.push(`<td>${r.label ? `<span class="status-badge status-${r.cls}">${r.label}</span>` : `<span class="status-badge status-${r.cls}">${formatDate(r.date)}</span>`}</td>`);
+      } else {
+        cells.push(`<td>${statusCell}</td>`);
+      }
+      return `<tr data-name="${r.name.toLowerCase()}" data-iata="${r.iata.toLowerCase()}" data-date="${r.date || ''}">${cells.join('')}</tr>`;
+    }).join('');
+
+    block.innerHTML = `
+      <div class="section-header">
+        <h2>${sec.title}</h2>
+        <span class="sec-count">${sec.rows.length} חברות</span>
+      </div>
+      <div class="table-responsive">
+        <table>
+          <thead><tr>${head}</tr></thead>
+          <tbody>${body}</tbody>
+        </table>
+      </div>`;
+    wrap.appendChild(block);
+  });
+}
+
+/* ---------- כפתורי סינון ---------- */
+const FILTERS = [
+  { cat: 'all',     label: 'הכל' },
+  { cat: 'israel',  label: '🇮🇱 ישראליות' },
+  { cat: 'active',  label: 'פעילות' },
+  { cat: 'paused',  label: 'מושהות' },
+  { cat: 'stopped', label: 'אינן פעילות' },
+];
+let currentFilter = 'all';
+
+function buildFilters() {
+  const bar = document.getElementById('filterBar');
+  bar.innerHTML = '';
+  FILTERS.forEach(f => {
+    const count = f.cat === 'all'
+      ? Object.values(DATA).reduce((s, sec) => s + sec.rows.length, 0)
+      : (DATA[f.cat] ? DATA[f.cat].rows.length : 0);
+    const btn = document.createElement('button');
+    btn.className = 'filter-chip';
+    btn.dataset.cat = f.cat;
+    btn.setAttribute('aria-pressed', f.cat === 'all');
+    btn.innerHTML = `${f.label} <span class="count">${count}</span>`;
+    btn.addEventListener('click', () => {
+      currentFilter = f.cat;
+      document.querySelectorAll('.filter-chip').forEach(c =>
+        c.setAttribute('aria-pressed', c.dataset.cat === f.cat));
+      applyView();
+    });
+    bar.appendChild(btn);
+  });
+}
+
+/* ---------- חיפוש + סינון + הדגשה ---------- */
+const searchInput = document.getElementById('searchInput');
+const searchClear = document.getElementById('searchClear');
+let searchTerm = '';
+
+function highlight(cell, term) {
+  const txt = cell.textContent;
+  if (!term) { cell.innerHTML = txt; return; }
+  const idx = txt.toLowerCase().indexOf(term);
+  if (idx === -1) { cell.innerHTML = txt; return; }
+  cell.innerHTML = txt.slice(0, idx) +
+    '<mark class="hl">' + txt.slice(idx, idx + term.length) + '</mark>' +
+    txt.slice(idx + term.length);
+}
+
+function applyView() {
+  const term = searchTerm.trim().toLowerCase();
+  let totalVisible = 0;
+
+  document.querySelectorAll('.section-block').forEach(block => {
+    const cat = block.dataset.cat;
+    const catMatch = currentFilter === 'all' || currentFilter === cat;
+    let visibleInBlock = 0;
+
+    block.querySelectorAll('tbody tr').forEach(tr => {
+      const haystack = tr.textContent.toLowerCase();
+      const match = catMatch && (!term || haystack.indexOf(term) > -1);
+      tr.style.display = match ? '' : 'none';
+      if (match) {
+        visibleInBlock++;
+        totalVisible++;
+        const nameCell = tr.querySelector('[data-field="name"]');
+        if (nameCell) highlight(nameCell, term);
+      }
+    });
+
+    block.style.display = (catMatch && visibleInBlock > 0) ? '' : 'none';
+    const sc = block.querySelector('.sec-count');
+    if (sc) sc.innerHTML = `${visibleInBlock} חברות`;
+  });
+
+  document.getElementById('noResults').classList.toggle('show', totalVisible === 0);
+}
+
+/* debounce לחיפוש */
+let debTimer;
+searchInput.addEventListener('input', function () {
+  searchTerm = this.value;
+  searchClear.classList.toggle('show', this.value.length > 0);
+  clearTimeout(debTimer);
+  debTimer = setTimeout(applyView, 120);
+});
+searchClear.addEventListener('click', () => {
+  searchInput.value = '';
+  searchTerm = '';
+  searchClear.classList.remove('show');
+  applyView();
+  searchInput.focus();
+});
+
+/* ---------- מיון ---------- */
+document.getElementById('sortSelect').addEventListener('change', function () {
+  const mode = this.value;
+  Object.keys(DATA).forEach(key => {
+    const block = document.querySelector(`.section-block[data-cat="${key}"]`);
+    if (!block) return;
+    const tbody = block.querySelector('tbody');
+    const rows = Array.from(tbody.querySelectorAll('tr'));
+    rows.sort((a, b) => {
+      if (mode === 'name') {
+        return a.dataset.name.localeCompare(b.dataset.name);
+      } else if (mode === 'date') {
+        const da = a.dataset.date, db = b.dataset.date;
+        if (!da && !db) return 0;
+        if (!da) return 1;   // ללא תאריך – לסוף
+        if (!db) return -1;
+        return da.localeCompare(db);
+      }
+      return 0; // ברירת מחדל
+    });
+    if (mode === 'default') { buildSections(); buildFilters(); applyView(); return; }
+    rows.forEach(r => tbody.appendChild(r));
+  });
+});
+
+/* ---------- אתחול ---------- */
+buildSections();
+buildFilters();
+applyView();
+</script>
 
 </body>
 </html>
