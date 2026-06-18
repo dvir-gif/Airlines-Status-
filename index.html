@@ -3,347 +3,548 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>לוח מעקב טיסות - קבוצות ובריתות</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <title>לוח סטטוס חברות תעופה - אמסלם</title>
     
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+
     <style>
         :root {
-            /* Amsalem Colors & Light Theme */
-            --primary: #29c4d9;
-            --primary-hover: #1baebf;
-            --bg-body: #f1f5f9; /* Slate 100 */
-            --bg-card: #ffffff; /* White */
-            --bg-header: #ffffff;
-            --text-main: #1e293b; /* Slate 800 */
-            --text-muted: #64748b; /* Slate 500 */
-            --border: #e2e8f0; /* Slate 200 */
+            --primary: #00bcd4;
+            --primary-hover: #00acc1;
+            --bg-main: #f8fafc;
+            --bg-card: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
             
-            /* Status Colors */
-            --status-active-text: #059669; /* Emerald 600 */
-            --status-active-bg: #d1fae5; /* Emerald 100 */
-            --status-soon-text: #d97706; /* Amber 600 */
-            --status-soon-bg: #fef3c7; /* Amber 100 */
-            --status-suspended-text: #dc2626; /* Red 600 */
-            --status-suspended-bg: #fee2e2; /* Red 100 */
-            --status-inactive-text: #475569; /* Slate 600 */
-            --status-inactive-bg: #f1f5f9; /* Slate 100 */
-        }
+            /* צבעי סטטוס מתוקנים לעיצוב בהיר */
+            --status-active-bg: #dcfce7;
+            --status-active-text: #166534;
+            
+            --status-soon-bg: #fef9c3;
+            --status-soon-text: #854d0e;
+            
+            --status-suspended-bg: #fee2e2;
+            --status-suspended-text: #991b1b;
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+            --status-inactive-bg: #f1f5f9;
+            --status-inactive-text: #475569;
+        }
 
         body {
             font-family: 'Heebo', sans-serif;
-            background-color: var(--bg-body);
+            background-color: var(--bg-main);
             color: var(--text-main);
             min-height: 100vh;
         }
 
-        .header {
-            background-color: var(--bg-header);
-            padding: 12px 20px;
+        .top-bar {
+            background-color: var(--bg-card);
             border-bottom: 1px solid var(--border);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             position: sticky;
             top: 0;
-            z-index: 100;
+            z-index: 50;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
         }
 
-        .header-inner {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 15px;
-        }
-
-        .amsalem-logo-container {
-            display: flex;
-            align-items: center;
+        .brand-logo img {
+            height: 70px; /* לוגו מוגדל */
+            object-fit: contain;
         }
         
-        .header img.logo-img { 
-            max-height: 70px; 
-            width: auto; 
+        /* גיבוי למקרה שהתמונה לא נטענת */
+        .brand-fallback {
+            display: none;
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #333;
+            letter-spacing: -0.5px;
+        }
+        .brand-fallback span {
+            color: var(--primary);
         }
 
-        .header-titles {
-            text-align: left;
+        .header-content {
+            text-align: right;
         }
 
-        .header h1 { 
-            font-size: 1.3rem; 
-            margin-bottom: 2px; 
-            font-weight: 800; 
-        }
-        
-        .header p { 
-            color: var(--text-muted); 
-            font-size: 0.85rem; 
-            margin: 0; 
+        .header-title {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--text-main);
+            margin: 0;
+            line-height: 1.2;
         }
 
-        /* התאמה למסכים קטנים (מובייל) */
-        @media (max-width: 600px) {
-            .header-inner {
+        .header-subtitle {
+            color: var(--text-muted);
+            font-size: 1rem;
+            margin-top: 5px;
+        }
+
+        @media (max-width: 768px) {
+            .top-bar {
                 flex-direction: column;
-                justify-content: center;
                 text-align: center;
-                gap: 8px;
+                gap: 15px;
+                padding: 15px 20px;
             }
-            .header-titles { text-align: center; }
-            .header h1 { font-size: 1.15rem; }
-            .header p { font-size: 0.8rem; }
-            .header img.logo-img { max-height: 55px; }
+            .header-content { text-align: center; }
+            .brand-logo img { height: 55px; }
         }
 
-        .controls-container { max-width: 1200px; margin: 0 auto; padding: 20px; }
-        .search-box { position: relative; margin-bottom: 20px; }
-        .search-icon { position: absolute; right: 20px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 1.2rem; pointer-events: none; }
-        #searchInput {
-            width: 100%; padding: 18px 50px 18px 20px; font-size: 1.1rem; border: 2px solid var(--border);
-            border-radius: 12px; background-color: var(--bg-card); color: var(--text-main);
-            font-family: 'Heebo', sans-serif; transition: all 0.3s ease; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+        .main-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 30px 20px;
         }
-        #searchInput:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(41, 196, 217, 0.2); }
 
-        .filters { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; -ms-overflow-style: none; scrollbar-width: none; }
-        .filters::-webkit-scrollbar { display: none; }
+        .controls-container {
+            background-color: var(--bg-card);
+            padding: 20px;
+            border-radius: 16px;
+            margin-bottom: 30px;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        .search-sort-row { 
+            display: flex; 
+            gap: 15px; 
+            margin-bottom: 20px; 
+            align-items: stretch; 
+        }
+
+        .search-box {
+            position: relative;
+            flex-grow: 1;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 15px 20px 15px 50px;
+            border-radius: 12px;
+            border: 2px solid var(--border);
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            font-family: 'Heebo', sans-serif;
+            font-size: 1.05rem;
+            transition: all 0.3s ease;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--primary);
+            background-color: var(--bg-card);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 1.2rem;
+        }
+
+        .sort-select { 
+            padding: 0 20px; 
+            border-radius: 12px; 
+            border: 2px solid var(--border);
+            background-color: var(--bg-main); 
+            color: var(--text-main); 
+            font-family: 'Heebo', sans-serif;
+            font-size: 1.05rem; 
+            font-weight: 500; 
+            cursor: pointer; 
+            transition: all 0.3s ease;
+            min-width: 220px;
+        }
+
+        .sort-select:focus { 
+            outline: none; 
+            border-color: var(--primary); 
+            background-color: var(--bg-card);
+        }
+
+        .filters {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
         .filter-btn {
-            background-color: var(--bg-card); color: var(--text-muted); border: 1px solid var(--border);
-            padding: 10px 20px; border-radius: 20px; font-family: 'Heebo', sans-serif; font-size: 0.95rem;
-            font-weight: 500; cursor: pointer; white-space: nowrap; transition: all 0.2s ease;
-            display: flex; align-items: center; gap: 8px; box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            border: 1px solid var(--border);
+            padding: 10px 24px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
         }
-        .filter-btn:hover { border-color: var(--text-muted); color: var(--text-main); }
-        .filter-btn.active { background-color: var(--primary); color: #fff; border-color: var(--primary); font-weight: 700; }
 
-        .main-container { max-width: 1200px; margin: 0 auto; padding: 0 20px 40px; }
-        
-        .alliance-section { margin-bottom: 45px; animation: fadeIn 0.4s ease forwards; }
-        .alliance-title {
-            font-size: 1.4rem; color: var(--text-main); margin-bottom: 20px;
-            padding-bottom: 10px; border-bottom: 2px solid var(--border);
-            display: flex; align-items: center; gap: 12px; font-weight: 700;
+        .filter-btn:hover {
+            background-color: #e2e8f0;
         }
-        .alliance-title i { color: var(--primary); font-size: 1.5rem; }
+
+        .filter-btn.active {
+            background-color: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            box-shadow: 0 4px 12px rgba(0, 188, 212, 0.3);
+        }
+
+        .results-summary {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            margin-top: 15px;
+            font-weight: 500;
+        }
+
+        @media (max-width: 768px) {
+            .search-sort-row { flex-direction: column; }
+            .sort-select { padding: 15px 20px; }
+            .filters { overflow-x: auto; padding-bottom: 10px; flex-wrap: nowrap; -webkit-overflow-scrolling: touch; }
+            .filter-btn { white-space: nowrap; }
+        }
+
+        .alliance-section {
+            margin-bottom: 40px;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .alliance-title {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--text-main);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 10px;
+        }
+
+        .alliance-title img {
+            width: 35px;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-left: 12px;
+            object-fit: cover;
+        }
 
         .dashboard-grid {
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 20px;
         }
 
         .airline-card {
-            background-color: var(--bg-card); border-radius: 16px; padding: 20px;
-            border: 1px solid var(--border); transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
-            display: flex; flex-direction: column; gap: 15px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            background-color: var(--bg-card);
+            border-radius: 16px;
+            padding: 24px;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
         }
-        .airline-card:hover { transform: translateY(-4px); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); border-color: var(--primary); }
 
-        .card-header { display: flex; align-items: center; gap: 15px; }
-
-        .logo-container {
-            width: 60px; height: 60px; background-color: #f8fafc; border-radius: 12px; position: relative;
-            display: flex; justify-content: center; align-items: center; flex-shrink: 0;
-            overflow: hidden; border: 1px solid var(--border); box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+        .airline-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+            border-color: var(--primary);
         }
-        .israeli-badge { background: linear-gradient(135deg, var(--primary), #0ea5e9); border-color: var(--primary); }
-        
-        .iata-badge { font-size: 1.4rem; font-weight: 900; color: var(--text-main); z-index: 2; letter-spacing: 1px; }
-        .israeli-badge .iata-badge { color: #ffffff; text-shadow: 0 1px 2px rgba(0,0,0,0.2); }
-        .plane-deco { position: absolute; bottom: -8px; right: -8px; font-size: 2.5rem; color: rgba(0, 0, 0, 0.03); transform: rotate(-45deg); z-index: 1; }
-        .israeli-badge .plane-deco { color: rgba(255, 255, 255, 0.15); }
 
-        .airline-info { flex-grow: 1; }
-        .airline-name { font-size: 1.2rem; font-weight: 700; margin-bottom: 4px; display: flex; align-items: center; gap: 8px; }
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
 
-        .status-container { display: flex; align-items: center; gap: 10px; padding: 10px 15px; border-radius: 8px; background-color: var(--bg-body); }
-        .status-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
-        .status-text { font-size: 0.95rem; font-weight: 600; line-height: 1.4; }
-        .status-relative-date { display: block; font-size: 0.8rem; color: var(--text-muted); margin-top: 2px; font-weight: 400; }
+        .airline-logo-container {
+            width: 65px;
+            height: 65px;
+            background-color: var(--bg-card);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--border);
+            overflow: hidden;
+            padding: 5px;
+            flex-shrink: 0;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+        }
 
-        .theme-active .status-container { background-color: var(--status-active-bg); }
-        .theme-active .status-dot { background-color: var(--status-active-text); box-shadow: 0 0 6px rgba(5, 150, 105, 0.4); }
+        .airline-real-logo {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .airline-logo-fallback {
+            width: 100%;
+            height: 100%;
+            background-color: var(--bg-main);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1.2rem;
+            color: var(--text-main);
+        }
+
+        .airline-info h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin: 0 0 4px 0;
+            color: var(--text-main);
+        }
+
+        .airline-info p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .status-badge {
+            padding: 12px 16px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .theme-active { background-color: var(--status-active-bg); }
         .theme-active .status-text { color: var(--status-active-text); }
+        .theme-active .status-icon { color: #10b981; }
 
-        .theme-soon .status-container { background-color: var(--status-soon-bg); }
-        .theme-soon .status-dot { background-color: var(--status-soon-text); box-shadow: 0 0 6px rgba(217, 119, 6, 0.4); }
+        .theme-soon { background-color: var(--status-soon-bg); }
         .theme-soon .status-text { color: var(--status-soon-text); }
+        .theme-soon .status-icon { color: #eab308; }
 
-        .theme-suspended .status-container { background-color: var(--status-suspended-bg); }
-        .theme-suspended .status-dot { background-color: var(--status-suspended-text); box-shadow: 0 0 6px rgba(220, 38, 38, 0.4); }
+        .theme-suspended { background-color: var(--status-suspended-bg); }
         .theme-suspended .status-text { color: var(--status-suspended-text); }
+        .theme-suspended .status-icon { color: #ef4444; }
 
-        .theme-inactive { opacity: 0.7; }
-        .theme-inactive .status-container { background-color: var(--status-inactive-bg); }
-        .theme-inactive .status-dot { background-color: var(--status-inactive-text); }
+        .theme-inactive { background-color: var(--status-inactive-bg); }
         .theme-inactive .status-text { color: var(--status-inactive-text); }
+        .theme-inactive .status-icon { color: #64748b; }
 
-        .no-results { text-align: center; padding: 60px 20px; background-color: var(--bg-card); border-radius: 16px; border: 2px dashed var(--border); display: none; margin-top: 20px;}
-        .no-results i { font-size: 3rem; color: var(--text-muted); margin-bottom: 15px; }
-        .no-results h3 { font-size: 1.5rem; margin-bottom: 10px; }
-        .no-results p { color: var(--text-muted); }
+        .status-pulse {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: #10b981;
+            box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+            animation: pulse 2s infinite;
+        }
 
-        .results-summary { text-align: right; padding: 0 20px 15px; color: var(--text-muted); font-size: 0.9rem; max-width: 1200px; margin: 0 auto; }
+        @keyframes pulse {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+        }
 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        /* No Results & Summary */
+        .no-results { text-align: center; padding: 80px 20px; background-color: var(--bg-card); border-radius: 16px; border: 2px dashed var(--border); display: none; margin-top: 20px;}
+        
+        .skeleton { pointer-events: none; }
+        .skeleton-box {
+            background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%); 
+            background-size: 200% 100%; 
+            animation: loading 1.5s infinite; 
+            border-radius: 8px; 
+        }
+        .skeleton-logo { width: 60px; height: 60px; border-radius: 12px; }
+        .skeleton-text-title { height: 24px; width: 60%; margin-bottom: 8px; }
+        .skeleton-text-sub { height: 16px; width: 40%; }
+        .skeleton-status { height: 45px; border-radius: 12px; margin-top: 10px; }
+        @keyframes loading { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+
     </style>
 </head>
 <body>
 
-    <header class="header">
-        <div class="header-inner">
-            <div class="amsalem-logo-container">
-               <img src="logo 24 (4).jpg" alt="Amsalem" class="logo-img" onerror="this.style.display='none'; document.getElementById('fallback-logo').style.display='block';" />
-               <!-- לוגו גיבוי במקרה שהתמונה לא נטענת -->
-               <div id="fallback-logo" style="display: none; font-weight: 900; font-size: 1.8rem; color: var(--primary); letter-spacing: -1px; font-family: sans-serif;">
-                   AMSALEM<span style="color: var(--text-main);">.</span>
-               </div>
-            </div>
-            
-            <div class="header-titles">
-                <h1>לוח סטטוס חברות תעופה</h1>
-                <p>מעודכן ל-05/06 בשעה 08:00 (מסודר לפי בריתות)</p>
-            </div>
+    <header class="top-bar">
+        <div class="brand-logo">
+            <img src="logo 24 (4).jpg" alt="Amsalem Global Travel Management" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+            <div class="brand-fallback">AMSALEM<span>.</span></div>
+        </div>
+        <div class="header-content">
+            <h1 class="header-title">סטטוס חברות תעופה</h1>
+            <p class="header-subtitle"><i class="fa-regular fa-clock"></i> מעודכן ל-18/06 בשעה 14:00</p>
         </div>
     </header>
 
     <div class="controls-container">
-        <div class="search-box">
-            <i class="fa-solid fa-magnifying-glass search-icon"></i>
-            <input type="text" id="searchInput" placeholder="חיפוש חברת תעופה או קוד IATA...">
-        </div>
+            <div class="search-sort-row">
+                <div class="search-box">
+                    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                    <input type="text" id="searchInput" placeholder="חיפוש חברת תעופה או קוד IATA...">
+                </div>
+            </div>
 
-        <div class="filters">
-            <button class="filter-btn active" data-filter="all">הכל</button>
-            <button class="filter-btn" data-filter="active">פעילות</button>
-            <button class="filter-btn" data-filter="soon">חוזרות בקרוב</button>
-            <button class="filter-btn" data-filter="suspended">מושהות / בוטלו</button>
+            <div class="filters">
+            <button class="filter-btn active" data-filter="all"><i class="fa-solid fa-list-ul ml-1"></i> הכל</button>
+            <button class="filter-btn" data-filter="active"><i class="fa-solid fa-circle-check ml-1"></i> פעילות</button>
+            <button class="filter-btn" data-filter="soon"><i class="fa-regular fa-clock ml-1"></i> חוזרות בקרוב</button>
+            <button class="filter-btn" data-filter="suspended"><i class="fa-solid fa-circle-pause ml-1"></i> מושהות</button>
         </div>
     </div>
-    
-    <div class="results-summary" id="resultsSummary"></div>
 
-    <main class="main-container" id="dashboardContainer">
-        <!-- Alliance sections will be generated here -->
-        <div id="noResults" class="no-results">
-            <i class="fa-solid fa-plane-circle-xmark"></i>
-            <h3>לא נמצאו חברות תעופה תואמות</h3>
-            <p>נסה לשנות את מילות החיפוש או את הסינון שבחרת.</p>
+    <div id="dashboardContainer">
+            <!-- אזור התוצאות יוזרק לכאן באמצעות JavaScript -->
+            <div id="noResults" class="no-results">
+                <i class="fa-solid fa-plane-slash"></i>
+                <h3>לא נמצאו חברות תעופה</h3>
+                <p>נסה לשנות את מילות החיפוש או את הסינון.</p>
+            </div>
         </div>
+
     </main>
 
     <script>
-        /**
-         * מסד הנתונים מעודכן עם שיוך לבריתות (alliance)
-         * Alliances: israeli, lufthansa_group, star_alliance, skyteam, oneworld, others
-         */
+        // הגדרת קבוצות אזורים עם קידודי מדינות עבור הדגלים (FlagCDN)
+        const REGION_GROUPS = [
+            { id: "il", title: "ישראל", flagCode: "il" },
+            { id: "na", title: "ארצות הברית וקנדה", flagCode: "us" },
+            { id: "gr_cy", title: "יוון וקפריסין", flagCode: "gr" },
+            { id: "we_eu", title: "מערב ומרכז אירופה", flagCode: "eu" },
+            { id: "ee_ba", title: "מזרח אירופה והבלקן", flagCode: "ro" },
+            { id: "me_af", title: "איחוד האמירויות ואפריקה", flagCode: "ae" },
+            { id: "as", title: "אסיה והקווקז", flagCode: "th" }
+        ];
+
+        // מסד הנתונים המעודכן - 18/06
         const AIRLINES = [
-            // --- ישראליות ---
-            { name: 'אל על', iata: 'LY', status: 'active', alliance: 'israeli', note: 'פעילה בנתב"ג' },
-            { name: 'ישראייר', iata: '6H', status: 'active', alliance: 'israeli', note: 'פעילה בנתב"ג' },
-            { name: 'ארקיע', iata: 'IZ', status: 'active', alliance: 'israeli', note: 'פעילה בנתב"ג' },
-            { name: 'אייר חיפה', iata: 'E2', status: 'active', alliance: 'israeli', note: 'פעילה בחיפה' },
+            // ישראליות
+            { name: "אל על", iata: "LY", status: "active", region: "il" },
+            { name: "ישראייר", iata: "6H", status: "active", region: "il" },
+            { name: "ארקיע", iata: "IZ", status: "active", region: "il" },
+            { name: "אייר חיפה", iata: "E2", status: "active", region: "il", customLogo: "air_haifa_ltd_logo.jfif" },
 
-            // --- קבוצת לופטהנזה ---
-            { name: 'לופטהנזה', iata: 'LH', status: 'soon', until: '2026-07-01', alliance: 'lufthansa_group', note: 'תחדש ב-1/7' },
-            { name: 'סוויס', iata: 'LX', status: 'soon', until: '2026-07-01', alliance: 'lufthansa_group', note: 'תחדש ב-1/7' },
-            { name: 'אוסטריאן איירליינס', iata: 'OS', status: 'active', alliance: 'lufthansa_group', note: 'פעילה בנתב"ג' },
-            { name: 'בראסלס איירליינס', iata: 'SN', status: 'soon', until: '2026-10-24', alliance: 'lufthansa_group', note: 'תחדש ב-24/10' },
-            { name: 'יורווינגס', iata: 'EW', status: 'soon', until: '2026-07-01', alliance: 'lufthansa_group', note: 'תחדש ב-1/7' },
+            // זרות - פעילות כעת
+            { name: "אג'יאן איירליינס", iata: "A3", status: "active", region: "gr_cy" },
+            { name: "אוזבקיסטן איירוייז", iata: "HY", status: "active", region: "as" },
+            { name: "אוסטריאן איירליינס", iata: "OS", status: "active", region: "we_eu" },
+            { name: "אזימוט", iata: "A4", status: "active", region: "as" },
+            { name: "אזרבייג׳ן איירליינס", iata: "J2", status: "active", region: "as" },
+            { name: "איתיחאד", iata: "EY", status: "active", region: "me_af" },
+            { name: "אתיופיאן איירליינס", iata: "ET", status: "active", region: "me_af" },
+            { name: "בולגריה אייר", iata: "FB", status: "active", region: "ee_ba" },
+            { name: "בלאביה", iata: "B2", status: "active", region: "ee_ba" },
+            { name: "בלו בירד", iata: "BZ", status: "active", region: "gr_cy" },
+            { name: "היי-סקיי (HISKY)", iata: "H4", status: "active", region: "ee_ba" },
+            { name: "וויז אייר", iata: "W6", status: "active", region: "ee_ba" },
+            { name: "טארום", iata: "RO", status: "active", region: "ee_ba" },
+            { name: "טוס איירוויז", iata: "U8", status: "active", region: "gr_cy" },
+            { name: "לוט", iata: "LO", status: "active", region: "ee_ba" },
+            { name: "נאוס", iata: "NO", status: "active", region: "we_eu" },
+            { name: "סייפרוס איירוייז", iata: "CY", status: "active", region: "gr_cy" },
+            { name: "סמארטווינגס", iata: "QS", status: "active", region: "ee_ba" },
+            { name: "סקיי אפ", iata: "PQ", status: "active", region: "ee_ba" },
+            { name: "סקיי אקספרס", iata: "GQ", status: "active", region: "gr_cy" },
+            { name: "פליי דובאי", iata: "FZ", status: "active", region: "me_af" },
+            { name: "פליי וואן", iata: "5F", status: "active", region: "ee_ba" },
+            { name: "צנטרום אייר", iata: "C6", status: "active", region: "as" },
+            { name: "רד ווינגס", iata: "WZ", status: "active", region: "as" },
 
-            // --- סטאר אלייאנס (Star Alliance) ---
-            { name: "אג'יאן איירליינס", iata: 'A3', status: 'active', alliance: 'star_alliance', note: 'פעילה בנתב"ג' },
-            { name: 'אייר אינדיה', iata: 'AI', status: 'suspended', until: '2026-07-31', alliance: 'star_alliance', note: 'השהתה עד 31/7' },
-            { name: 'אייר קנדה', iata: 'AC', status: 'suspended', until: '2026-09-07', alliance: 'star_alliance', note: 'השהתה עד 7/9' },
-            { name: 'אתיופיאן איירליינס', iata: 'ET', status: 'active', alliance: 'star_alliance', note: 'פעילה בנתב"ג' },
-            { name: 'יונייטד', iata: 'UA', status: 'suspended', until: '2026-09-07', alliance: 'star_alliance', note: 'השהתה עד 7/9' },
-            { name: 'לוט (LOT)', iata: 'LO', status: 'active', alliance: 'star_alliance', note: 'פעילה בנתב"ג' },
-            { name: 'טאפ אייר פורטוגל', iata: 'TP', status: 'inactive', until: '2026-08-01', alliance: 'star_alliance', note: 'צפויה לחדש ב-1/8' },
+            // זרות - תאריכי חזרה מעודכנים
+            { name: "איבריה", iata: "IB", status: "suspended", until: "2026-10-24", region: "we_eu" },
+            { name: "איטה (ITA)", iata: "AZ", status: "soon", until: "2026-07-01", region: "we_eu" },
+            { name: "אייר אינדיה", iata: "AI", status: "suspended", until: "2026-07-31", region: "as" },
+            { name: "אייר אירופה", iata: "UX", status: "suspended", until: "2026-06-28", region: "we_eu" },
+            { name: "אייר בלטיק", iata: "BT", status: "soon", until: "2026-07-01", region: "ee_ba" },
+            { name: "אייר סיישל", iata: "HM", status: "suspended", until: "2026-08-05", region: "me_af" },
+            { name: "אייר פראנס", iata: "AF", status: "suspended", until: "2026-06-23", region: "we_eu" },
+            { name: "אייר קנדה", iata: "AC", status: "suspended", until: "2026-10-24", region: "na" },
+            { name: "אנימה ווינגס", iata: "AWG", status: "suspended", until: "2026-08-10", region: "ee_ba" },
+            { name: "בראסלס איירליינס", iata: "SN", status: "soon", until: "2026-10-24", region: "we_eu" },
+            { name: "בריטיש איירווייז", iata: "BA", status: "suspended", until: "2026-10-24", region: "we_eu" },
+            { name: "ג׳אורג׳יאן איירווייז", iata: "A9", status: "suspended", until: "2026-08-01", region: "ee_ba" },
+            { name: "דלתא איירליינס", iata: "DL", status: "suspended", until: "2026-09-05", region: "na" },
+            { name: "היינאן איירליינס", iata: "HU", status: "suspended", until: "2026-10-22", region: "as" },
+            { name: "טראנסאוויה צרפת", iata: "TO", status: "suspended", until: "2026-09-06", region: "we_eu" },
+            { name: "יונייטד", iata: "UA", status: "suspended", until: "2026-09-07", region: "na" },
+            { name: "יורווינגס", iata: "EW", status: "soon", until: "2026-07-01", region: "we_eu" },
+            { name: "לופטהנזה", iata: "LH", status: "soon", until: "2026-07-01", region: "we_eu" },
+            { name: "סוויס", iata: "LX", status: "soon", until: "2026-07-01", region: "we_eu" },
+            { name: "סקנדינביאן איירליינס", iata: "SK", status: "suspended", until: "2026-10-31", region: "we_eu" },
+            { name: "קלמ (KLM)", iata: "KL", status: "suspended", until: "2026-06-25", region: "we_eu" },
 
-            // --- סקיי טים (SkyTeam) ---
-            { name: 'אייר פראנס', iata: 'AF', status: 'suspended', until: '2026-06-14', alliance: 'skyteam', note: 'השהתה עד 14/6' },
-            { name: 'קלמ (KLM)', iata: 'KL', status: 'suspended', until: '2026-06-17', alliance: 'skyteam', note: 'השהתה עד 17/6' },
-            { name: 'דלתא איירליינס', iata: 'DL', status: 'suspended', until: '2026-09-05', alliance: 'skyteam', note: 'השהתה עד 5/9' },
-            { name: 'קוריאן אייר', iata: 'KE', status: 'inactive', alliance: 'skyteam', note: 'השהתה טיסות' },
-            { name: 'סקנדינביאן (SAS)', iata: 'SK', status: 'suspended', until: '2026-10-31', alliance: 'skyteam', note: 'השהתה עד 31/10' },
-            { name: 'איטה (ITA)', iata: 'AZ', status: 'soon', until: '2026-07-01', alliance: 'skyteam', note: 'תחדש ב-1/7' },
-            { name: 'טארום', iata: 'RO', status: 'active', alliance: 'skyteam', note: 'פעילה בנתב"ג' },
-            { name: 'טראנסאוויה צרפת', iata: 'TO', status: 'suspended', until: '2026-07-05', alliance: 'skyteam', note: 'השהתה עד 5/7' },
-
-            // --- וואן וורלד (Oneworld) ---
-            { name: 'בריטיש איירווייז', iata: 'BA', status: 'suspended', until: '2026-10-24', alliance: 'oneworld', note: 'השהתה עד 24/10' },
-            { name: 'איבריה', iata: 'IB', status: 'suspended', until: '2026-10-24', alliance: 'oneworld', note: 'השהתה עד 24/10' },
-            { name: 'אמריקן איירליינס', iata: 'AA', status: 'inactive', until: '2027-01-05', alliance: 'oneworld', note: 'צפויה לחדש ב-5/1/2027' },
-            { name: 'קתאי פסיפיק', iata: 'CX', status: 'inactive', alliance: 'oneworld', note: 'השהתה טיסות' },
-            { name: 'פינאייר', iata: 'AY', status: 'inactive', alliance: 'oneworld', note: 'השהתה טיסות' },
-            { name: 'רויאל אייר מארוק', iata: 'AT', status: 'inactive', alliance: 'oneworld', note: 'השהתה טיסות' },
-            { name: 'רויאל ג׳ורדניאן', iata: 'RJ', status: 'inactive', alliance: 'oneworld', note: 'השהתה טיסות' },
-
-            // --- חברות נוספות וחסך (Low Cost) ---
-            { name: 'אוזבקיסטן איירווייז', iata: 'HY', status: 'active', alliance: 'others', note: 'פעילה בנתב"ג' },
-            { name: 'אזימוט', iata: 'A4', status: 'active', alliance: 'others', note: 'פעילה בנתב"ג' },
-            { name: 'אזרבייג׳ן איירליינס', iata: 'J2', status: 'active', alliance: 'others', note: 'פעילה בנתב"ג' },
-            { name: 'אייר אירופה', iata: 'UX', status: 'suspended', until: '2026-06-28', alliance: 'others', note: 'השהתה עד 28/6' },
-            { name: 'אייר בלטיק', iata: 'BT', status: 'suspended', until: '2026-07-01', alliance: 'others', note: 'השהתה עד 1/7' },
-            { name: 'אייר סיישל', iata: 'HM', status: 'inactive', alliance: 'others', note: 'השהתה פעילות' },
-            { name: 'איתיחאד', iata: 'EY', status: 'active', alliance: 'others', note: 'פעילה בנתב"ג' },
-            { name: 'אנימה ווינגס', iata: 'A2', status: 'suspended', until: '2026-08-10', alliance: 'others', note: 'השהתה עד 10/8' },
-            { name: 'בולגריה אייר', iata: 'FB', status: 'active', alliance: 'others', note: 'פעילה בנתב"ג' },
-            { name: 'בלאביה', iata: 'B2', status: 'active', alliance: 'others', note: 'פעילה בנתב"ג' },
-            { name: 'בלו בירד', iata: 'BZ', status: 'active', alliance: 'others', note: 'פעילה בנתב"ג' },
-            { name: 'ג׳אורג׳יאן איירווייז', iata: 'A9', status: 'suspended', until: '2026-07-01', alliance: 'others', note: 'השהתה עד 1/7' },
-            { name: 'היינאן איירליינס', iata: 'HU', status: 'inactive', alliance: 'others', note: 'השהתה פעילות' },
-            { name: 'היי-סקיי (HISKY)', iata: 'H4', status: 'active', alliance: 'others', note: 'פעילה בנתב"ג' },
-            { name: 'וויז אייר', iata: 'W6', status: 'active', alliance: 'others', note: 'פעילה בנתב"ג' },
-            { name: 'טוס איירוויז', iata: 'U8', status: 'active', alliance: 'others', note: 'פעילה בנתב"ג' },
-            { name: 'נאוס', iata: 'NO', status: 'soon', until: '2026-06-10', alliance: 'others', note: 'תחדש ב-10/6' },
-            { name: 'סייפרוס איירוייז', iata: 'CY', status: 'active', alliance: 'others', note: 'פעילה בנתב"ג' },
-            { name: 'סמארטווינגס', iata: 'QS', status: 'active', alliance: 'others', note: 'פעילה בנתב"ג' },
-            { name: 'סקיי אפ', iata: 'PQ', status: 'active', alliance: 'others', note: 'פעילה בנתב"ג' },
-            { name: 'סקיי אקספרס', iata: 'GQ', status: 'active', alliance: 'others', note: 'פעילה בנתב"ג' },
-            { name: 'פליי דובאי', iata: 'FZ', status: 'active', alliance: 'others', note: 'פעילה בנתב"ג' },
-            { name: 'פליי וואן', iata: '5F', status: 'active', alliance: 'others', note: 'פעילה בנתב"ג' },
-            { name: 'צנטרום אייר', iata: 'C6', status: 'active', alliance: 'others', note: 'פעילה בנתב"ג' },
-            { name: 'רד ווינגס', iata: 'WZ', status: 'active', alliance: 'others', note: 'פעילה בנתב"ג' },
-            { name: "איזיג'ט", iata: 'U2', status: 'inactive', alliance: 'others', note: 'השהתה טיסות' },
-            { name: 'אייר סרביה', iata: 'JU', status: 'inactive', alliance: 'others', note: 'השהתה טיסות' },
-            { name: 'אמירייטס', iata: 'EK', status: 'inactive', alliance: 'others', note: 'השהתה טיסות' },
-            { name: 'גאלף אייר', iata: 'GF', status: 'inactive', alliance: 'others', note: 'השהתה טיסות' },
-            { name: 'וויולינג', iata: 'VY', status: 'inactive', alliance: 'others', note: 'השהתה טיסות' },
-            { name: "נורווג'יאן אייר", iata: 'DY', status: 'inactive', alliance: 'others', note: 'השהתה טיסות' },
-            { name: 'קונדור', iata: 'DE', status: 'inactive', until: '2026-08-01', alliance: 'others', note: 'צפויה להפעיל ב-1/8' },
-            { name: 'ריינאייר', iata: 'FR', status: 'inactive', alliance: 'others', note: 'השהתה טיסות' }
+            // לא פעילות מ-7.10
+            { name: "איזיג'ט", iata: "U2", status: "inactive", region: "we_eu" },
+            { name: "אייר סרביה", iata: "JU", status: "inactive", region: "ee_ba" },
+            { name: "אמירייטס", iata: "EK", status: "inactive", region: "me_af" },
+            { name: "אמריקן איירליינס", iata: "AA", status: "inactive", until: "2027-01-05", region: "na" },
+            { name: "גאלף אייר", iata: "GF", status: "inactive", region: "me_af" },
+            { name: "וויולינג", iata: "VY", status: "inactive", region: "we_eu" },
+            { name: "טאפ אייר פורטוגל", iata: "TP", status: "inactive", until: "2026-08-18", region: "we_eu" },
+            { name: "נורווג'יאן אייר", iata: "DY", status: "inactive", region: "we_eu" },
+            { name: "פינאייר", iata: "AY", status: "inactive", region: "we_eu" },
+            { name: "קוריאן אייר", iata: "KE", status: "inactive", region: "as" },
+            { name: "קונדור", iata: "DE", status: "inactive", until: "2026-08-01", region: "we_eu" },
+            { name: "קתאי פסיפיק", iata: "CX", status: "inactive", region: "as" },
+            { name: "רויאל אייר מארוק", iata: "AT", status: "inactive", region: "me_af" },
+            { name: "רויאל ג׳ורדניאן", iata: "RJ", status: "inactive", region: "me_af" },
+            { name: "ריינאייר", iata: "FR", status: "inactive", region: "we_eu" }
         ];
 
-        // הגדרת קבוצות התצוגה
-        const ALLIANCE_GROUPS = [
-            { id: 'israeli', title: 'חברות תעופה ישראליות', icon: 'fa-star' },
-            { id: 'lufthansa_group', title: 'קבוצת לופטהנזה', icon: 'fa-plane-departure' },
-            { id: 'star_alliance', title: 'סטאר אלייאנס (Star Alliance)', icon: 'fa-globe' },
-            { id: 'skyteam', title: 'סקיי טים (SkyTeam)', icon: 'fa-cloud' },
-            { id: 'oneworld', title: 'וואן וורלד (Oneworld)', icon: 'fa-earth-americas' },
-            { id: 'others', title: 'חברות נוספות וחסך (Low Cost)', icon: 'fa-plane' }
-        ];
-
-        // חישוב ימים יחסי (למשל: "בעוד 5 ימים")
-        function getRelativeDate(dateString) {
-            if (!dateString) return '';
+        function calculateDaysUntil(dateString) {
+            if (!dateString) return null;
+            const targetDate = new Date(dateString);
+            targetDate.setHours(0, 0, 0, 0);
             const today = new Date();
             today.setHours(0, 0, 0, 0);
-            const targetDate = new Date(dateString);
+            
             const diffTime = targetDate - today;
             const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-            
-            if (diffDays < 0) return 'תאריך עבר';
-            if (diffDays === 0) return 'היום';
-            if (diffDays === 1) return 'מחר';
-            return `בעוד ${diffDays} ימים`;
+            return diffDays;
         }
 
-        // מיון פנימי בתוך הקבוצה (פעילות -> חוזרות -> מושהות לפי תאריך -> לא פעילות)
+        function formatDateStr(dateString) {
+            if (!dateString) return '';
+            const parts = dateString.split('-');
+            return `${parts[2]}/${parts[1]}`;
+        }
+
+        function getStatusText(airline) {
+            if (airline.status === 'active') return 'פעילה בנתב"ג';
+            if (airline.status === 'inactive' && !airline.until) return 'השהתה את פעילותה';
+            
+            const diffDays = calculateDaysUntil(airline.until);
+            const dateFormatted = formatDateStr(airline.until);
+
+            if (diffDays === null) return 'השהתה את פעילותה';
+            if (diffDays < 0) return 'התאריך עבר';
+            if (diffDays === 0) return 'חוזרת היום!';
+            if (diffDays === 1) return 'חוזרת מחר';
+            
+            if (airline.status === 'soon') return `תחדש פעילות ב-${dateFormatted}`;
+            if (airline.status === 'suspended') return `מושהית עד ${dateFormatted}`;
+            if (airline.status === 'inactive') return `צפויה לחזור ב-${dateFormatted}`;
+            
+            return `מושהית עד ${dateFormatted}`;
+        }
+
         function sortAirlinesWithinGroup(a, b) {
             const statusWeight = { 'active': 1, 'soon': 2, 'suspended': 3, 'inactive': 4 };
             if (statusWeight[a.status] !== statusWeight[b.status]) {
@@ -358,91 +559,186 @@
             return a.name.localeCompare(b.name, 'he');
         }
 
-        function createCardHTML(airline) {
-            const relativeDateStr = airline.until ? `<span class="status-relative-date"><i class="fa-regular fa-calendar"></i> ${getRelativeDate(airline.until)}</span>` : '';
-            const badgeClass = airline.alliance === 'israeli' ? 'logo-container israeli-badge' : 'logo-container';
-
-            return `
-                <article class="airline-card theme-${airline.status}">
-                    <div class="card-header">
-                        <div class="${badgeClass}">
-                            <span class="iata-badge">${airline.iata}</span>
-                            <i class="fa-solid fa-plane plane-deco"></i>
-                        </div>
-                        <div class="airline-info">
-                            <h2 class="airline-name">${airline.name}</h2>
-                        </div>
-                    </div>
-                    <div class="status-container">
-                        <div class="status-dot"></div>
-                        <div>
-                            <div class="status-text">${airline.note}</div>
-                            ${relativeDateStr}
-                        </div>
-                    </div>
-                </article>
-            `;
+        function sortByDate(a, b) {
+            if (a.until && b.until) return new Date(a.until) - new Date(b.until);
+            if (a.until && !b.until) return -1;
+            if (!a.until && b.until) return 1;
+            return sortAirlinesWithinGroup(a, b);
         }
 
-        // פונקציה לבניית הממשק מחדש על סמך רשימת החברות המסוננת
-        function renderAirlines(airlinesToRender) {
-            const container = document.getElementById('dashboardContainer');
-            const noResults = document.getElementById('noResults');
-            
-            // מנקה את התוכן הקיים מלבד הודעת אין תוצאות
-            Array.from(container.children).forEach(child => {
+        function createCardHTML(airline) {
+        let themeClass = '';
+        let iconClass = '';
+        let pulseHtml = '';
+
+        switch(airline.status) {
+            case 'active': 
+                themeClass = 'theme-active'; 
+                iconClass = 'fa-circle-check'; 
+                pulseHtml = '<div class="status-pulse"></div>';
+                break;
+            case 'soon': themeClass = 'theme-soon'; iconClass = 'fa-clock'; break;
+            case 'suspended': themeClass = 'theme-suspended'; iconClass = 'fa-circle-pause'; break;
+            case 'inactive': themeClass = 'theme-inactive'; iconClass = 'fa-circle-minus'; break;
+        }
+
+        const statusText = getStatusText(airline);
+        const iataText = airline.iata !== "???" ? airline.iata : "--";
+
+        // יצירת לוגו אמיתי במידה ויש IATA, אחרת גיבוי לטקסט
+        let logoHtml = '';
+        if (airline.customLogo) {
+            logoHtml = `
+                <img src="${airline.customLogo}" class="airline-real-logo" alt="לוגו ${airline.name}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div class="airline-logo-fallback" style="display: none;">${iataText}</div>
+            `;
+        } else if (airline.iata && airline.iata !== "???") {
+            logoHtml = `
+                <img src="https://pics.avs.io/200/200/${airline.iata}.png" class="airline-real-logo" alt="לוגו ${airline.name}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div class="airline-logo-fallback" style="display: none;">${iataText}</div>
+            `;
+        } else {
+            logoHtml = `<div class="airline-logo-fallback">${iataText}</div>`;
+        }
+
+        return `
+            <article class="airline-card">
+                <div class="card-header">
+                    <div class="airline-logo-container">
+                        ${logoHtml}
+                    </div>
+                    <div class="airline-info">
+                        <h3>${airline.name}</h3>
+                        <p><i class="fa-solid fa-plane"></i> קוד חברה: ${iataText}</p>
+                    </div>
+                </div>
+                <div class="status-badge ${themeClass}">
+                    ${pulseHtml ? pulseHtml : `<i class="fa-solid ${iconClass} status-icon"></i>`}
+                    <span class="status-text">${statusText}</span>
+                </div>
+            </article>
+        `;
+    }
+
+    // פונקציית אנימציית הטעינה (Skeleton Loader)
+    function showLoading() {
+        const container = document.getElementById('dashboardContainer');
+        const noResults = document.getElementById('noResults');
+        noResults.style.display = 'none';
+
+        Array.from(container.children).forEach(child => {
+            if(child.id !== 'noResults') child.remove();
+        });
+
+        const section = document.createElement('div');
+        section.className = 'alliance-section';
+        
+        const skeletonCardsHtml = Array(6).fill(0).map(() => `
+            <article class="airline-card skeleton">
+                <div class="card-header">
+                    <div class="skeleton-box skeleton-logo"></div>
+                    <div class="airline-info">
+                        <div class="skeleton-box skeleton-text-title"></div>
+                        <div class="skeleton-box skeleton-text-sub"></div>
+                    </div>
+                </div>
+                <div class="skeleton-box skeleton-status"></div>
+            </article>
+        `).join('');
+
+        section.innerHTML = `
+            <div class="dashboard-grid">
+                ${skeletonCardsHtml}
+            </div>
+        `;
+        container.insertBefore(section, noResults);
+    }
+
+    // פונקציה לבניית הממשק מחדש על סמך רשימת החברות המסוננת
+    function renderAirlines(airlinesToRender) {
+        const container = document.getElementById('dashboardContainer');
+        const noResults = document.getElementById('noResults');
+        
+        // מנקה את התוכן הקיים מלבד הודעת אין תוצאות
+        Array.from(container.children).forEach(child => {
                 if(child.id !== 'noResults') child.remove();
             });
 
             let hasVisibleAny = false;
 
-            // עובר על הקבוצות ובונה את ה-HTML
-            ALLIANCE_GROUPS.forEach(group => {
-                const groupAirlines = airlinesToRender.filter(a => a.alliance === group.id);
-                
-                if (groupAirlines.length > 0) {
-                    hasVisibleAny = true;
-                    groupAirlines.sort(sortAirlinesWithinGroup);
+            if (airlinesToRender.length > 0) {
+                hasVisibleAny = true;
 
+                if (currentSort === 'region') {
+                REGION_GROUPS.forEach(group => {
+                    const groupAirlines = airlinesToRender.filter(a => a.region === group.id);
+                    
+                    if (groupAirlines.length > 0) {
+                        groupAirlines.sort(sortAirlinesWithinGroup);
+
+                        const section = document.createElement('div');
+                        section.className = 'alliance-section';
+                        
+                        const cardsHtml = groupAirlines.map(a => createCardHTML(a)).join('');
+                        
+                        section.innerHTML = `
+                            <h2 class="alliance-title">
+                                ${group.title}
+                            </h2>
+                            <div class="dashboard-grid">
+                                ${cardsHtml}
+                            </div>
+                        `;
+                        container.insertBefore(section, noResults);
+                        }
+                    });
+                } else {
                     const section = document.createElement('div');
                     section.className = 'alliance-section';
                     
-                    const cardsHtml = groupAirlines.map(a => createCardHTML(a)).join('');
+                    let sortedAirlines = [...airlinesToRender];
                     
-                    section.innerHTML = `
-                        <h2 class="alliance-title"><i class="fa-solid ${group.icon}"></i> ${group.title}</h2>
+                    if (currentSort === 'date') {
+                        sortedAirlines.sort(sortByDate);
+                        section.innerHTML = `<h2 class="alliance-title"><i class="fa-regular fa-calendar-days" style="margin-left: 12px;"></i> מסודר לפי תאריך חזרה קרוב</h2>`;
+                    } else if (currentSort === 'alpha') {
+                        sortedAirlines.sort((a, b) => a.name.localeCompare(b.name, 'he'));
+                        section.innerHTML = `<h2 class="alliance-title"><i class="fa-solid fa-arrow-down-a-z" style="margin-left: 12px;"></i> מסודר לפי א'-ת'</h2>`;
+                    }
+
+                    const cardsHtml = sortedAirlines.map(a => createCardHTML(a)).join('');
+                    
+                    section.innerHTML += `
                         <div class="dashboard-grid">
                             ${cardsHtml}
                         </div>
                     `;
                     container.insertBefore(section, noResults);
                 }
-            });
+            }
 
             noResults.style.display = hasVisibleAny ? 'none' : 'block';
-            updateSummary(airlinesToRender.length);
-        }
-
-        function updateSummary(count) {
-            document.getElementById('resultsSummary').innerText = `מציג ${count} חברות תעופה תואמות`;
         }
 
         let currentFilter = 'all';
         let currentSearch = '';
+        let currentSort = 'region';
+        let loadingTimeout;
 
         function applyFilters() {
-            const filtered = AIRLINES.filter(airline => {
-                // חיפוש חופשי
-                const matchesSearch = airline.name.includes(currentSearch) || airline.iata.includes(currentSearch.toUpperCase());
-                
-                // התאמת סטטוס (מחשיב 'inactive' כמושהה לצורך הסינון בכפתור)
-                const effectiveStatus = airline.status === 'inactive' ? 'suspended' : airline.status;
-                const matchesFilter = (currentFilter === 'all' || effectiveStatus === currentFilter);
-                
-                return matchesSearch && matchesFilter;
-            });
+            clearTimeout(loadingTimeout);
+            showLoading();
 
-            renderAirlines(filtered);
+            loadingTimeout = setTimeout(() => {
+                const filtered = AIRLINES.filter(airline => {
+                    const matchesSearch = airline.name.includes(currentSearch) || airline.iata.includes(currentSearch.toUpperCase());
+                    const effectiveStatus = airline.status === 'inactive' ? 'suspended' : airline.status;
+                    const matchesFilter = (currentFilter === 'all' || effectiveStatus === currentFilter);
+                    return matchesSearch && matchesFilter;
+                });
+
+                renderAirlines(filtered);
+            }, 300);
         }
 
         function setupFiltersAndSearch() {
@@ -466,9 +762,10 @@
 
         // הפעלת האפליקציה לאחר טעינת הדף
         document.addEventListener('DOMContentLoaded', () => {
-            renderAirlines(AIRLINES);
             setupFiltersAndSearch();
+            applyFilters();
         });
+
     </script>
 </body>
 </html>
