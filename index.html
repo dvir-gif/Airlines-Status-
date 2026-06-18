@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>לוח סטטוס חברות תעופה - אמסלם</title>
+    <title>סטטוס חברות תעופה - אמסלם</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
@@ -19,7 +19,6 @@
             --text-muted: #64748b;
             --border: #e2e8f0;
             
-            /* צבעי סטטוס מתוקנים לעיצוב בהיר */
             --status-active-bg: #dcfce7;
             --status-active-text: #166534;
             
@@ -54,11 +53,10 @@
         }
 
         .brand-logo img {
-            height: 70px; /* לוגו מוגדל */
+            height: 70px;
             object-fit: contain;
         }
         
-        /* גיבוי למקרה שהתמונה לא נטענת */
         .brand-fallback {
             display: none;
             font-size: 1.8rem;
@@ -68,6 +66,54 @@
         }
         .brand-fallback span {
             color: var(--primary);
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .lang-toggle {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 100%);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 12px rgba(0, 188, 212, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .lang-toggle::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: all 0.5s ease;
+        }
+
+        .lang-toggle:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 188, 212, 0.3);
+        }
+
+        .lang-toggle:hover::before {
+            left: 100%;
+        }
+
+        .lang-toggle i {
+            font-size: 1.1rem;
         }
 
         .header-content {
@@ -95,6 +141,7 @@
                 gap: 15px;
                 padding: 15px 20px;
             }
+            .header-actions { flex-direction: column-reverse; gap: 10px; }
             .header-content { text-align: center; }
             .brand-logo img { height: 55px; }
         }
@@ -128,7 +175,9 @@
 
         .search-box input {
             width: 100%;
-            padding: 15px 20px 15px 50px;
+            padding: 15px;
+            padding-inline-start: 50px;
+            padding-inline-end: 20px;
             border-radius: 12px;
             border: 2px solid var(--border);
             background-color: var(--bg-main);
@@ -146,31 +195,11 @@
 
         .search-icon {
             position: absolute;
-            left: 20px;
+            inset-inline-start: 20px;
             top: 50%;
             transform: translateY(-50%);
             color: var(--text-muted);
             font-size: 1.2rem;
-        }
-
-        .sort-select { 
-            padding: 0 20px; 
-            border-radius: 12px; 
-            border: 2px solid var(--border);
-            background-color: var(--bg-main); 
-            color: var(--text-main); 
-            font-family: 'Heebo', sans-serif;
-            font-size: 1.05rem; 
-            font-weight: 500; 
-            cursor: pointer; 
-            transition: all 0.3s ease;
-            min-width: 220px;
-        }
-
-        .sort-select:focus { 
-            outline: none; 
-            border-color: var(--primary); 
-            background-color: var(--bg-card);
         }
 
         .filters {
@@ -202,16 +231,8 @@
             box-shadow: 0 4px 12px rgba(0, 188, 212, 0.3);
         }
 
-        .results-summary {
-            font-size: 0.95rem;
-            color: var(--text-muted);
-            margin-top: 15px;
-            font-weight: 500;
-        }
-
         @media (max-width: 768px) {
             .search-sort-row { flex-direction: column; }
-            .sort-select { padding: 15px 20px; }
             .filters { overflow-x: auto; padding-bottom: 10px; flex-wrap: nowrap; -webkit-overflow-scrolling: touch; }
             .filter-btn { white-space: nowrap; }
         }
@@ -230,14 +251,6 @@
             align-items: center;
             border-bottom: 2px solid var(--border);
             padding-bottom: 10px;
-        }
-
-        .alliance-title img {
-            width: 35px;
-            border-radius: 4px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            margin-left: 12px;
-            object-fit: cover;
         }
 
         .dashboard-grid {
@@ -363,7 +376,6 @@
             100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
         }
 
-        /* No Results & Summary */
         .no-results { text-align: center; padding: 80px 20px; background-color: var(--bg-card); border-radius: 16px; border: 2px dashed var(--border); display: none; margin-top: 20px;}
         
         .skeleton { pointer-events: none; }
@@ -388,13 +400,19 @@
             <img src="logo 24 (4).jpg" alt="Amsalem Global Travel Management" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
             <div class="brand-fallback">AMSALEM<span>.</span></div>
         </div>
-        <div class="header-content">
-            <h1 class="header-title">סטטוס חברות תעופה</h1>
-            <p class="header-subtitle"><i class="fa-regular fa-clock"></i> מעודכן ל-18/06 בשעה 14:00</p>
+        <div class="header-actions">
+            <button id="langToggle" class="lang-toggle" onclick="toggleLanguage()">
+                English <i class="fa-solid fa-globe"></i>
+            </button>
+            <div class="header-content">
+                <h1 class="header-title">סטטוס חברות תעופה</h1>
+                <p class="header-subtitle"><i class="fa-regular fa-clock"></i> מעודכן ל-18/06/2026 בשעה 14:00</p>
+            </div>
         </div>
     </header>
 
-    <div class="controls-container">
+    <main class="main-container">
+        <div class="controls-container">
             <div class="search-sort-row">
                 <div class="search-box">
                     <i class="fa-solid fa-magnifying-glass search-icon"></i>
@@ -403,116 +421,184 @@
             </div>
 
             <div class="filters">
-            <button class="filter-btn active" data-filter="all"><i class="fa-solid fa-list-ul ml-1"></i> הכל</button>
-            <button class="filter-btn" data-filter="active"><i class="fa-solid fa-circle-check ml-1"></i> פעילות</button>
-            <button class="filter-btn" data-filter="soon"><i class="fa-regular fa-clock ml-1"></i> חוזרות בקרוב</button>
-            <button class="filter-btn" data-filter="suspended"><i class="fa-solid fa-circle-pause ml-1"></i> מושהות</button>
+                <button class="filter-btn active" data-filter="all"><span id="txtFilterAll">הכל</span> <i class="fa-solid fa-list-ul ms-2"></i></button>
+                <button class="filter-btn" data-filter="active"><span id="txtFilterActive">פעילות</span> <i class="fa-solid fa-circle-check ms-2"></i></button>
+            </div>
         </div>
-    </div>
 
-    <div id="dashboardContainer">
-            <!-- אזור התוצאות יוזרק לכאן באמצעות JavaScript -->
+        <div id="dashboardContainer">
             <div id="noResults" class="no-results">
                 <i class="fa-solid fa-plane-slash"></i>
                 <h3>לא נמצאו חברות תעופה</h3>
                 <p>נסה לשנות את מילות החיפוש או את הסינון.</p>
             </div>
         </div>
-
     </main>
 
     <script>
-        // הגדרת קבוצות אזורים עם קידודי מדינות עבור הדגלים (FlagCDN)
+        const I18N = {
+            he: {
+                title: "סטטוס חברות תעופה",
+                subtitle: "מעודכן ל-18/06/2026 בשעה 14:00",
+                searchPlaceholder: "חיפוש חברת תעופה או קוד IATA...",
+                filterAll: "הכל",
+                filterActive: "פעילות",
+                noResultsTitle: "לא נמצאו חברות תעופה",
+                noResultsDesc: "נסה לשנות את מילות החיפוש או את הסינון.",
+                statusActive: "פעילה בנתב\"ג",
+                statusSuspended: "השהתה את פעילותה",
+                statusPassed: "התאריך עבר",
+                statusToday: "חוזרת היום!",
+                statusTomorrow: "חוזרת מחר",
+                statusResumeIn: "תחדש פעילות ב-",
+                statusExpectedIn: "צפויה לחזור ב-",
+                statusSuspendedUntil: "מושהית עד ",
+                airlineCode: "קוד חברה:",
+                langToggle: "English"
+            },
+            en: {
+                title: "Airlines Flight Status",
+                subtitle: "Updated: 18/06/2026 at 14:00",
+                searchPlaceholder: "Search airline or IATA...",
+                filterAll: "All",
+                filterActive: "Active",
+                noResultsTitle: "No Airlines Found",
+                noResultsDesc: "Try adjusting your search or filters.",
+                statusActive: "Active in TLV",
+                statusSuspended: "Suspended operations",
+                statusPassed: "Date passed",
+                statusToday: "Resuming today!",
+                statusTomorrow: "Resuming tomorrow",
+                statusResumeIn: "Resuming on ",
+                statusExpectedIn: "Expected to return on ",
+                statusSuspendedUntil: "Suspended until ",
+                airlineCode: "Airline Code:",
+                langToggle: "עברית"
+            }
+        };
+
+        let currentLang = 'he';
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'he' ? 'en' : 'he';
+            
+            document.documentElement.lang = currentLang;
+            document.documentElement.dir = currentLang === 'he' ? 'rtl' : 'ltr';
+            
+            document.querySelector('.header-title').innerText = I18N[currentLang].title;
+            document.querySelector('.header-subtitle').innerHTML = `<i class="fa-regular fa-clock"></i> ${I18N[currentLang].subtitle}`;
+            document.getElementById('searchInput').placeholder = I18N[currentLang].searchPlaceholder;
+            
+            document.getElementById('txtFilterAll').innerText = I18N[currentLang].filterAll;
+            document.getElementById('txtFilterActive').innerText = I18N[currentLang].filterActive;
+            
+            document.querySelector('#noResults h3').innerText = I18N[currentLang].noResultsTitle;
+            document.querySelector('#noResults p').innerText = I18N[currentLang].noResultsDesc;
+            
+            document.getElementById('langToggle').innerHTML = `${I18N[currentLang].langToggle} <i class="fa-solid fa-globe"></i>`;
+
+            if(currentLang === 'en') {
+                document.querySelector('.header-content').style.textAlign = 'left';
+            } else {
+                document.querySelector('.header-content').style.textAlign = 'right';
+            }
+            
+            applyFilters();
+        }
+
+        // קבוצות אזורים
         const REGION_GROUPS = [
-            { id: "il", title: "ישראל", flagCode: "il" },
-            { id: "na", title: "ארצות הברית וקנדה", flagCode: "us" },
-            { id: "gr_cy", title: "יוון וקפריסין", flagCode: "gr" },
-            { id: "we_eu", title: "מערב ומרכז אירופה", flagCode: "eu" },
-            { id: "ee_ba", title: "מזרח אירופה והבלקן", flagCode: "ro" },
-            { id: "me_af", title: "איחוד האמירויות ואפריקה", flagCode: "ae" },
-            { id: "as", title: "אסיה והקווקז", flagCode: "th" }
+            { id: "il", title: "ישראל", titleEn: "Israel" },
+            { id: "na", title: "ארצות הברית וקנדה", titleEn: "North America" },
+            { id: "gr_cy", title: "יוון וקפריסין", titleEn: "Greece & Cyprus" },
+            { id: "we_eu", title: "מערב ומרכז אירופה", titleEn: "Western & Central Europe" },
+            { id: "ee_ba", title: "מזרח אירופה והבלקן", titleEn: "Eastern Europe & Balkans" },
+            { id: "me_af", title: "איחוד האמירויות ואפריקה", titleEn: "UAE & Africa" },
+            { id: "as", title: "אסיה והקווקז", titleEn: "Asia & Caucasus" }
         ];
 
-        // מסד הנתונים המעודכן - 18/06
+        // מסד הנתונים
         const AIRLINES = [
             // ישראליות
-            { name: "אל על", iata: "LY", status: "active", region: "il" },
-            { name: "ישראייר", iata: "6H", status: "active", region: "il" },
-            { name: "ארקיע", iata: "IZ", status: "active", region: "il" },
-            { name: "אייר חיפה", iata: "E2", status: "active", region: "il", customLogo: "air_haifa_ltd_logo.jfif" },
+            { name: "אל על", nameEn: "El Al", iata: "LY", status: "active", region: "il" },
+            { name: "ישראייר", nameEn: "Israir", iata: "6H", status: "active", region: "il" },
+            { name: "ארקיע", nameEn: "Arkia", iata: "IZ", status: "active", region: "il" },
+            { name: "אייר חיפה", nameEn: "Air Haifa", iata: "E2", status: "active", region: "il", customLogo: "air_haifa_ltd_logo.jfif" },
 
             // זרות - פעילות כעת
-            { name: "אג'יאן איירליינס", iata: "A3", status: "active", region: "gr_cy" },
-            { name: "אוזבקיסטן איירוייז", iata: "HY", status: "active", region: "as" },
-            { name: "אוסטריאן איירליינס", iata: "OS", status: "active", region: "we_eu" },
-            { name: "אזימוט", iata: "A4", status: "active", region: "as" },
-            { name: "אזרבייג׳ן איירליינס", iata: "J2", status: "active", region: "as" },
-            { name: "איתיחאד", iata: "EY", status: "active", region: "me_af" },
-            { name: "אתיופיאן איירליינס", iata: "ET", status: "active", region: "me_af" },
-            { name: "בולגריה אייר", iata: "FB", status: "active", region: "ee_ba" },
-            { name: "בלאביה", iata: "B2", status: "active", region: "ee_ba" },
-            { name: "בלו בירד", iata: "BZ", status: "active", region: "gr_cy" },
-            { name: "היי-סקיי (HISKY)", iata: "H4", status: "active", region: "ee_ba" },
-            { name: "וויז אייר", iata: "W6", status: "active", region: "ee_ba" },
-            { name: "טארום", iata: "RO", status: "active", region: "ee_ba" },
-            { name: "טוס איירוויז", iata: "U8", status: "active", region: "gr_cy" },
-            { name: "לוט", iata: "LO", status: "active", region: "ee_ba" },
-            { name: "נאוס", iata: "NO", status: "active", region: "we_eu" },
-            { name: "סייפרוס איירוייז", iata: "CY", status: "active", region: "gr_cy" },
-            { name: "סמארטווינגס", iata: "QS", status: "active", region: "ee_ba" },
-            { name: "סקיי אפ", iata: "PQ", status: "active", region: "ee_ba" },
-            { name: "סקיי אקספרס", iata: "GQ", status: "active", region: "gr_cy" },
-            { name: "פליי דובאי", iata: "FZ", status: "active", region: "me_af" },
-            { name: "פליי וואן", iata: "5F", status: "active", region: "ee_ba" },
-            { name: "צנטרום אייר", iata: "C6", status: "active", region: "as" },
-            { name: "רד ווינגס", iata: "WZ", status: "active", region: "as" },
+            { name: "אג'יאן איירליינס", nameEn: "Aegean Airlines", iata: "A3", status: "active", region: "gr_cy" },
+            { name: "אוזבקיסטן איירוייז", nameEn: "Uzbekistan Airways", iata: "HY", status: "active", region: "as" },
+            { name: "אוסטריאן איירליינס", nameEn: "Austrian Airlines", iata: "OS", status: "active", region: "we_eu" },
+            { name: "אזימוט", nameEn: "Azimuth", iata: "A4", status: "active", region: "as" },
+            { name: "אזרבייג׳ן איירליינס", nameEn: "Azerbaijan Airlines", iata: "J2", status: "active", region: "as" },
+            { name: "איתיחאד", nameEn: "Etihad Airways", iata: "EY", status: "active", region: "me_af" },
+            { name: "אתיופיאן איירליינס", nameEn: "Ethiopian Airlines", iata: "ET", status: "active", region: "me_af" },
+            { name: "בולגריה אייר", nameEn: "Bulgaria Air", iata: "FB", status: "active", region: "ee_ba" },
+            { name: "בלאביה", nameEn: "Belavia", iata: "B2", status: "active", region: "ee_ba" },
+            { name: "בלו בירד", nameEn: "Bluebird Airways", iata: "BZ", status: "active", region: "gr_cy" },
+            { name: "היי-סקיי (HISKY)", nameEn: "HiSky", iata: "H4", status: "active", region: "ee_ba" },
+            { name: "וויז אייר", nameEn: "Wizz Air", iata: "W6", status: "active", region: "ee_ba" },
+            { name: "טארום", nameEn: "TAROM", iata: "RO", status: "active", region: "ee_ba" },
+            { name: "טוס איירוויז", nameEn: "TUS Airways", iata: "U8", status: "active", region: "gr_cy" },
+            { name: "לוט", nameEn: "LOT Polish Airlines", iata: "LO", status: "active", region: "ee_ba" },
+            { name: "נאוס", nameEn: "Neos", iata: "NO", status: "active", region: "we_eu" },
+            { name: "סייפרוס איירוייז", nameEn: "Cyprus Airways", iata: "CY", status: "active", region: "gr_cy" },
+            { name: "סמארטווינגס", nameEn: "Smartwings", iata: "QS", status: "active", region: "ee_ba" },
+            { name: "סקיי אפ", nameEn: "SkyUp", iata: "PQ", status: "active", region: "ee_ba" },
+            { name: "סקיי אקספרס", nameEn: "SKY express", iata: "GQ", status: "active", region: "gr_cy" },
+            { name: "פליי דובאי", nameEn: "flydubai", iata: "FZ", status: "active", region: "me_af" },
+            { name: "פליי וואן", nameEn: "FlyOne", iata: "5F", status: "active", region: "ee_ba" },
+            { name: "צנטרום אייר", nameEn: "Centrum Air", iata: "C6", status: "active", region: "as" },
+            { name: "רד ווינגס", nameEn: "Red Wings Airlines", iata: "WZ", status: "active", region: "as" },
 
-            // זרות - תאריכי חזרה מעודכנים
-            { name: "איבריה", iata: "IB", status: "suspended", until: "2026-10-24", region: "we_eu" },
-            { name: "איטה (ITA)", iata: "AZ", status: "soon", until: "2026-07-01", region: "we_eu" },
-            { name: "אייר אינדיה", iata: "AI", status: "suspended", until: "2026-07-31", region: "as" },
-            { name: "אייר אירופה", iata: "UX", status: "suspended", until: "2026-06-28", region: "we_eu" },
-            { name: "אייר בלטיק", iata: "BT", status: "soon", until: "2026-07-01", region: "ee_ba" },
-            { name: "אייר סיישל", iata: "HM", status: "suspended", until: "2026-08-05", region: "me_af" },
-            { name: "אייר פראנס", iata: "AF", status: "suspended", until: "2026-06-23", region: "we_eu" },
-            { name: "אייר קנדה", iata: "AC", status: "suspended", until: "2026-10-24", region: "na" },
-            { name: "אנימה ווינגס", iata: "AWG", status: "suspended", until: "2026-08-10", region: "ee_ba" },
-            { name: "בראסלס איירליינס", iata: "SN", status: "soon", until: "2026-10-24", region: "we_eu" },
-            { name: "בריטיש איירווייז", iata: "BA", status: "suspended", until: "2026-10-24", region: "we_eu" },
-            { name: "ג׳אורג׳יאן איירווייז", iata: "A9", status: "suspended", until: "2026-08-01", region: "ee_ba" },
-            { name: "דלתא איירליינס", iata: "DL", status: "suspended", until: "2026-09-05", region: "na" },
-            { name: "היינאן איירליינס", iata: "HU", status: "suspended", until: "2026-10-22", region: "as" },
-            { name: "טראנסאוויה צרפת", iata: "TO", status: "suspended", until: "2026-09-06", region: "we_eu" },
-            { name: "יונייטד", iata: "UA", status: "suspended", until: "2026-09-07", region: "na" },
-            { name: "יורווינגס", iata: "EW", status: "soon", until: "2026-07-01", region: "we_eu" },
-            { name: "לופטהנזה", iata: "LH", status: "soon", until: "2026-07-01", region: "we_eu" },
-            { name: "סוויס", iata: "LX", status: "soon", until: "2026-07-01", region: "we_eu" },
-            { name: "סקנדינביאן איירליינס", iata: "SK", status: "suspended", until: "2026-10-31", region: "we_eu" },
-            { name: "קלמ (KLM)", iata: "KL", status: "suspended", until: "2026-06-25", region: "we_eu" },
+            // זרות - תאריכי חזרה
+            { name: "איבריה", nameEn: "Iberia", iata: "IB", status: "suspended", until: "2026-10-24", region: "we_eu" },
+            { name: "איטה (ITA)", nameEn: "ITA Airways", iata: "AZ", status: "soon", until: "2026-07-01", region: "we_eu" },
+            { name: "אייר אינדיה", nameEn: "Air India", iata: "AI", status: "suspended", until: "2026-07-31", region: "as" },
+            { name: "אייר אירופה", nameEn: "Air Europa", iata: "UX", status: "suspended", until: "2026-06-28", region: "we_eu" },
+            { name: "אייר בלטיק", nameEn: "airBaltic", iata: "BT", status: "soon", until: "2026-07-01", region: "ee_ba" },
+            { name: "אייר סיישל", nameEn: "Air Seychelles", iata: "HM", status: "suspended", until: "2026-08-05", region: "me_af" },
+            { name: "אייר פראנס", nameEn: "Air France", iata: "AF", status: "suspended", until: "2026-06-23", region: "we_eu" },
+            { name: "אייר קנדה", nameEn: "Air Canada", iata: "AC", status: "suspended", until: "2026-10-24", region: "na" },
+            { name: "אנימה ווינגס", nameEn: "Animawings", iata: "AWG", status: "suspended", until: "2026-08-10", region: "ee_ba" },
+            { name: "בראסלס איירליינס", nameEn: "Brussels Airlines", iata: "SN", status: "soon", until: "2026-10-24", region: "we_eu" },
+            { name: "בריטיש איירווייז", nameEn: "British Airways", iata: "BA", status: "suspended", until: "2026-10-24", region: "we_eu" },
+            { name: "ג׳אורג׳יאן איירווייז", nameEn: "Georgian Airways", iata: "A9", status: "suspended", until: "2026-08-01", region: "ee_ba" },
+            { name: "דלתא איירליינס", nameEn: "Delta Air Lines", iata: "DL", status: "suspended", until: "2026-09-05", region: "na" },
+            { name: "היינאן איירליינס", nameEn: "Hainan Airlines", iata: "HU", status: "suspended", until: "2026-10-22", region: "as" },
+            { name: "טראנסאוויה צרפת", nameEn: "Transavia France", iata: "TO", status: "suspended", until: "2026-09-06", region: "we_eu" },
+            { name: "יונייטד", nameEn: "United Airlines", iata: "UA", status: "suspended", until: "2026-09-07", region: "na" },
+            { name: "יורווינגס", nameEn: "Eurowings", iata: "EW", status: "soon", until: "2026-07-01", region: "we_eu" },
+            { name: "לופטהנזה", nameEn: "Lufthansa", iata: "LH", status: "soon", until: "2026-07-01", region: "we_eu" },
+            { name: "סוויס", nameEn: "SWISS", iata: "LX", status: "soon", until: "2026-07-01", region: "we_eu" },
+            { name: "סקנדינביאן איירליינס", nameEn: "SAS", iata: "SK", status: "suspended", until: "2026-10-31", region: "we_eu" },
+            { name: "קלמ (KLM)", nameEn: "KLM", iata: "KL", status: "suspended", until: "2026-06-25", region: "we_eu" },
 
             // לא פעילות מ-7.10
-            { name: "איזיג'ט", iata: "U2", status: "inactive", region: "we_eu" },
-            { name: "אייר סרביה", iata: "JU", status: "inactive", region: "ee_ba" },
-            { name: "אמירייטס", iata: "EK", status: "inactive", region: "me_af" },
-            { name: "אמריקן איירליינס", iata: "AA", status: "inactive", until: "2027-01-05", region: "na" },
-            { name: "גאלף אייר", iata: "GF", status: "inactive", region: "me_af" },
-            { name: "וויולינג", iata: "VY", status: "inactive", region: "we_eu" },
-            { name: "טאפ אייר פורטוגל", iata: "TP", status: "inactive", until: "2026-08-18", region: "we_eu" },
-            { name: "נורווג'יאן אייר", iata: "DY", status: "inactive", region: "we_eu" },
-            { name: "פינאייר", iata: "AY", status: "inactive", region: "we_eu" },
-            { name: "קוריאן אייר", iata: "KE", status: "inactive", region: "as" },
-            { name: "קונדור", iata: "DE", status: "inactive", until: "2026-08-01", region: "we_eu" },
-            { name: "קתאי פסיפיק", iata: "CX", status: "inactive", region: "as" },
-            { name: "רויאל אייר מארוק", iata: "AT", status: "inactive", region: "me_af" },
-            { name: "רויאל ג׳ורדניאן", iata: "RJ", status: "inactive", region: "me_af" },
-            { name: "ריינאייר", iata: "FR", status: "inactive", region: "we_eu" }
+            { name: "איזיג'ט", nameEn: "easyJet", iata: "U2", status: "inactive", region: "we_eu" },
+            { name: "אייר סרביה", nameEn: "Air Serbia", iata: "JU", status: "inactive", region: "ee_ba" },
+            { name: "אמירייטס", nameEn: "Emirates", iata: "EK", status: "inactive", region: "me_af" },
+            { name: "אמריקן איירליינס", nameEn: "American Airlines", iata: "AA", status: "inactive", until: "2027-01-05", region: "na" },
+            { name: "גאלף אייר", nameEn: "Gulf Air", iata: "GF", status: "inactive", region: "me_af" },
+            { name: "וויולינג", nameEn: "Vueling", iata: "VY", status: "inactive", region: "we_eu" },
+            { name: "טאפ אייר פורטוגל", nameEn: "TAP Air Portugal", iata: "TP", status: "inactive", until: "2026-08-18", region: "we_eu" },
+            { name: "נורווג'יאן אייר", nameEn: "Norwegian Air", iata: "DY", status: "inactive", region: "we_eu" },
+            { name: "פינאייר", nameEn: "Finnair", iata: "AY", status: "inactive", region: "we_eu" },
+            { name: "קוריאן אייר", nameEn: "Korean Air", iata: "KE", status: "inactive", region: "as" },
+            { name: "קונדור", nameEn: "Condor", iata: "DE", status: "inactive", until: "2026-08-01", region: "we_eu" },
+            { name: "קתאי פסיפיק", nameEn: "Cathay Pacific", iata: "CX", status: "inactive", region: "as" },
+            { name: "רויאל אייר מארוק", nameEn: "Royal Air Maroc", iata: "AT", status: "inactive", region: "me_af" },
+            { name: "רויאל ג׳ורדניאן", nameEn: "Royal Jordanian", iata: "RJ", status: "inactive", region: "me_af" },
+            { name: "ריינאייר", nameEn: "Ryanair", iata: "FR", status: "inactive", region: "we_eu" }
         ];
 
         function calculateDaysUntil(dateString) {
             if (!dateString) return null;
             const targetDate = new Date(dateString);
             targetDate.setHours(0, 0, 0, 0);
-            const today = new Date();
+            
+            // מקבעים את התאריך של המערכת כדי שהחישובים יעבדו נכון עם שנת 2026
+            const today = new Date('2026-06-18T00:00:00');
             today.setHours(0, 0, 0, 0);
             
             const diffTime = targetDate - today;
@@ -523,144 +609,138 @@
         function formatDateStr(dateString) {
             if (!dateString) return '';
             const parts = dateString.split('-');
-            return `${parts[2]}/${parts[1]}`;
+            return `${parts[2]}/${parts[1]}/${parts[0]}`; 
         }
 
         function getStatusText(airline) {
-            if (airline.status === 'active') return 'פעילה בנתב"ג';
-            if (airline.status === 'inactive' && !airline.until) return 'השהתה את פעילותה';
+            const strings = I18N[currentLang];
+            
+            if (airline.status === 'active') return strings.statusActive;
+            if (airline.status === 'inactive' && !airline.until) return strings.statusSuspended;
             
             const diffDays = calculateDaysUntil(airline.until);
             const dateFormatted = formatDateStr(airline.until);
 
-            if (diffDays === null) return 'השהתה את פעילותה';
-            if (diffDays < 0) return 'התאריך עבר';
-            if (diffDays === 0) return 'חוזרת היום!';
-            if (diffDays === 1) return 'חוזרת מחר';
+            if (diffDays === null) return strings.statusSuspended;
+            if (diffDays < 0) return strings.statusPassed;
+            if (diffDays === 0) return strings.statusToday;
+            if (diffDays === 1) return strings.statusTomorrow;
             
-            if (airline.status === 'soon') return `תחדש פעילות ב-${dateFormatted}`;
-            if (airline.status === 'suspended') return `מושהית עד ${dateFormatted}`;
-            if (airline.status === 'inactive') return `צפויה לחזור ב-${dateFormatted}`;
+            if (diffDays <= 14 || airline.status === 'soon') return `${strings.statusResumeIn}${dateFormatted}`;
             
-            return `מושהית עד ${dateFormatted}`;
+            if (airline.status === 'inactive') return `${strings.statusExpectedIn}${dateFormatted}`;
+            
+            return `${strings.statusSuspendedUntil}${dateFormatted}`;
+        }
+
+        function createCardHTML(airline) {
+            let themeClass = '';
+            let iconClass = '';
+            let pulseHtml = '';
+            
+            const diffDays = calculateDaysUntil(airline.until);
+
+            let displayStatus = airline.status;
+            if ((airline.status === 'suspended' || airline.status === 'inactive') && diffDays !== null && diffDays <= 14 && diffDays > 0) {
+                displayStatus = 'soon';
+            }
+
+            switch(displayStatus) {
+                case 'active': 
+                    themeClass = 'theme-active'; 
+                    iconClass = 'fa-circle-check'; 
+                    pulseHtml = '<div class="status-pulse"></div>';
+                    break;
+                case 'soon': themeClass = 'theme-soon'; iconClass = 'fa-clock'; break;
+                case 'suspended': themeClass = 'theme-suspended'; iconClass = 'fa-circle-pause'; break;
+                case 'inactive': themeClass = 'theme-inactive'; iconClass = 'fa-circle-minus'; break;
+            }
+
+            const statusText = getStatusText(airline);
+            const iataText = airline.iata !== "???" ? airline.iata : "--";
+            const nameToDisplay = currentLang === 'en' ? airline.nameEn : airline.name;
+            const strings = I18N[currentLang];
+
+            // יצירת לוגו אמיתי במידה ויש IATA, אחרת גיבוי לטקסט
+            let logoHtml = '';
+            if (airline.customLogo) {
+                logoHtml = `
+                    <img src="${airline.customLogo}" class="airline-real-logo" alt="לוגו ${airline.name}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="airline-logo-fallback" style="display: none;">${iataText}</div>
+                `;
+            } else if (airline.iata && airline.iata !== "???") {
+                logoHtml = `
+                    <img src="https://pics.avs.io/200/200/${airline.iata}.png" class="airline-real-logo" alt="לוגו ${airline.name}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="airline-logo-fallback" style="display: none;">${iataText}</div>
+                `;
+            } else {
+                logoHtml = `<div class="airline-logo-fallback">${iataText}</div>`;
+            }
+
+            return `
+                <article class="airline-card">
+                    <div class="card-header">
+                        <div class="airline-logo-container">
+                            ${logoHtml}
+                        </div>
+                        <div class="airline-info">
+                            <h3>${nameToDisplay}</h3>
+                            <p><i class="fa-solid fa-plane"></i> ${strings.airlineCode} ${iataText}</p>
+                        </div>
+                    </div>
+                    <div class="status-badge ${themeClass}">
+                        ${pulseHtml ? pulseHtml : `<i class="fa-solid ${iconClass} status-icon"></i>`}
+                        <span class="status-text">${statusText}</span>
+                    </div>
+                </article>
+            `;
+        }
+
+        function showLoading() {
+            const container = document.getElementById('dashboardContainer');
+            const noResults = document.getElementById('noResults');
+            noResults.style.display = 'none';
+
+            Array.from(container.children).forEach(child => {
+                if(child.id !== 'noResults') child.remove();
+            });
+
+            const section = document.createElement('div');
+            section.className = 'alliance-section';
+            
+            const skeletonCardsHtml = Array(6).fill(0).map(() => `
+                <article class="airline-card skeleton">
+                    <div class="card-header">
+                        <div class="skeleton-box skeleton-logo"></div>
+                        <div class="airline-info">
+                            <div class="skeleton-box skeleton-text-title"></div>
+                            <div class="skeleton-box skeleton-text-sub"></div>
+                        </div>
+                    </div>
+                    <div class="skeleton-box skeleton-status"></div>
+                </article>
+            `).join('');
+
+            section.innerHTML = `
+                <div class="dashboard-grid">
+                    ${skeletonCardsHtml}
+                </div>
+            `;
+            container.insertBefore(section, noResults);
         }
 
         function sortAirlinesWithinGroup(a, b) {
-            const statusWeight = { 'active': 1, 'soon': 2, 'suspended': 3, 'inactive': 4 };
-            if (statusWeight[a.status] !== statusWeight[b.status]) {
-                return statusWeight[a.status] - statusWeight[b.status];
-            }
-            if (a.status === 'active') {
-                return a.name.localeCompare(b.name, 'he');
-            }
-            if (a.until && b.until) {
-                return new Date(a.until) - new Date(b.until);
+            if (currentLang === 'en') {
+                return a.nameEn.localeCompare(b.nameEn, 'en');
             }
             return a.name.localeCompare(b.name, 'he');
         }
 
-        function sortByDate(a, b) {
-            if (a.until && b.until) return new Date(a.until) - new Date(b.until);
-            if (a.until && !b.until) return -1;
-            if (!a.until && b.until) return 1;
-            return sortAirlinesWithinGroup(a, b);
-        }
-
-        function createCardHTML(airline) {
-        let themeClass = '';
-        let iconClass = '';
-        let pulseHtml = '';
-
-        switch(airline.status) {
-            case 'active': 
-                themeClass = 'theme-active'; 
-                iconClass = 'fa-circle-check'; 
-                pulseHtml = '<div class="status-pulse"></div>';
-                break;
-            case 'soon': themeClass = 'theme-soon'; iconClass = 'fa-clock'; break;
-            case 'suspended': themeClass = 'theme-suspended'; iconClass = 'fa-circle-pause'; break;
-            case 'inactive': themeClass = 'theme-inactive'; iconClass = 'fa-circle-minus'; break;
-        }
-
-        const statusText = getStatusText(airline);
-        const iataText = airline.iata !== "???" ? airline.iata : "--";
-
-        // יצירת לוגו אמיתי במידה ויש IATA, אחרת גיבוי לטקסט
-        let logoHtml = '';
-        if (airline.customLogo) {
-            logoHtml = `
-                <img src="${airline.customLogo}" class="airline-real-logo" alt="לוגו ${airline.name}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                <div class="airline-logo-fallback" style="display: none;">${iataText}</div>
-            `;
-        } else if (airline.iata && airline.iata !== "???") {
-            logoHtml = `
-                <img src="https://pics.avs.io/200/200/${airline.iata}.png" class="airline-real-logo" alt="לוגו ${airline.name}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                <div class="airline-logo-fallback" style="display: none;">${iataText}</div>
-            `;
-        } else {
-            logoHtml = `<div class="airline-logo-fallback">${iataText}</div>`;
-        }
-
-        return `
-            <article class="airline-card">
-                <div class="card-header">
-                    <div class="airline-logo-container">
-                        ${logoHtml}
-                    </div>
-                    <div class="airline-info">
-                        <h3>${airline.name}</h3>
-                        <p><i class="fa-solid fa-plane"></i> קוד חברה: ${iataText}</p>
-                    </div>
-                </div>
-                <div class="status-badge ${themeClass}">
-                    ${pulseHtml ? pulseHtml : `<i class="fa-solid ${iconClass} status-icon"></i>`}
-                    <span class="status-text">${statusText}</span>
-                </div>
-            </article>
-        `;
-    }
-
-    // פונקציית אנימציית הטעינה (Skeleton Loader)
-    function showLoading() {
-        const container = document.getElementById('dashboardContainer');
-        const noResults = document.getElementById('noResults');
-        noResults.style.display = 'none';
-
-        Array.from(container.children).forEach(child => {
-            if(child.id !== 'noResults') child.remove();
-        });
-
-        const section = document.createElement('div');
-        section.className = 'alliance-section';
-        
-        const skeletonCardsHtml = Array(6).fill(0).map(() => `
-            <article class="airline-card skeleton">
-                <div class="card-header">
-                    <div class="skeleton-box skeleton-logo"></div>
-                    <div class="airline-info">
-                        <div class="skeleton-box skeleton-text-title"></div>
-                        <div class="skeleton-box skeleton-text-sub"></div>
-                    </div>
-                </div>
-                <div class="skeleton-box skeleton-status"></div>
-            </article>
-        `).join('');
-
-        section.innerHTML = `
-            <div class="dashboard-grid">
-                ${skeletonCardsHtml}
-            </div>
-        `;
-        container.insertBefore(section, noResults);
-    }
-
-    // פונקציה לבניית הממשק מחדש על סמך רשימת החברות המסוננת
-    function renderAirlines(airlinesToRender) {
-        const container = document.getElementById('dashboardContainer');
-        const noResults = document.getElementById('noResults');
-        
-        // מנקה את התוכן הקיים מלבד הודעת אין תוצאות
-        Array.from(container.children).forEach(child => {
+        function renderAirlines(airlinesToRender) {
+            const container = document.getElementById('dashboardContainer');
+            const noResults = document.getElementById('noResults');
+            
+            Array.from(container.children).forEach(child => {
                 if(child.id !== 'noResults') child.remove();
             });
 
@@ -669,7 +749,6 @@
             if (airlinesToRender.length > 0) {
                 hasVisibleAny = true;
 
-                if (currentSort === 'region') {
                 REGION_GROUPS.forEach(group => {
                     const groupAirlines = airlinesToRender.filter(a => a.region === group.id);
                     
@@ -679,42 +758,20 @@
                         const section = document.createElement('div');
                         section.className = 'alliance-section';
                         
+                        const groupTitleToDisplay = currentLang === 'en' ? group.titleEn : group.title;
                         const cardsHtml = groupAirlines.map(a => createCardHTML(a)).join('');
                         
                         section.innerHTML = `
                             <h2 class="alliance-title">
-                                ${group.title}
+                                ${groupTitleToDisplay}
                             </h2>
                             <div class="dashboard-grid">
                                 ${cardsHtml}
                             </div>
                         `;
                         container.insertBefore(section, noResults);
-                        }
-                    });
-                } else {
-                    const section = document.createElement('div');
-                    section.className = 'alliance-section';
-                    
-                    let sortedAirlines = [...airlinesToRender];
-                    
-                    if (currentSort === 'date') {
-                        sortedAirlines.sort(sortByDate);
-                        section.innerHTML = `<h2 class="alliance-title"><i class="fa-regular fa-calendar-days" style="margin-left: 12px;"></i> מסודר לפי תאריך חזרה קרוב</h2>`;
-                    } else if (currentSort === 'alpha') {
-                        sortedAirlines.sort((a, b) => a.name.localeCompare(b.name, 'he'));
-                        section.innerHTML = `<h2 class="alliance-title"><i class="fa-solid fa-arrow-down-a-z" style="margin-left: 12px;"></i> מסודר לפי א'-ת'</h2>`;
                     }
-
-                    const cardsHtml = sortedAirlines.map(a => createCardHTML(a)).join('');
-                    
-                    section.innerHTML += `
-                        <div class="dashboard-grid">
-                            ${cardsHtml}
-                        </div>
-                    `;
-                    container.insertBefore(section, noResults);
-                }
+                });
             }
 
             noResults.style.display = hasVisibleAny ? 'none' : 'block';
@@ -722,7 +779,6 @@
 
         let currentFilter = 'all';
         let currentSearch = '';
-        let currentSort = 'region';
         let loadingTimeout;
 
         function applyFilters() {
@@ -731,7 +787,10 @@
 
             loadingTimeout = setTimeout(() => {
                 const filtered = AIRLINES.filter(airline => {
-                    const matchesSearch = airline.name.includes(currentSearch) || airline.iata.includes(currentSearch.toUpperCase());
+                    const searchLower = currentSearch.toLowerCase();
+                    const matchesSearch = airline.name.includes(currentSearch) || 
+                                          (airline.nameEn && airline.nameEn.toLowerCase().includes(searchLower)) ||
+                                          airline.iata.toLowerCase().includes(searchLower);
                     const effectiveStatus = airline.status === 'inactive' ? 'suspended' : airline.status;
                     const matchesFilter = (currentFilter === 'all' || effectiveStatus === currentFilter);
                     return matchesSearch && matchesFilter;
@@ -760,7 +819,6 @@
             });
         }
 
-        // הפעלת האפליקציה לאחר טעינת הדף
         document.addEventListener('DOMContentLoaded', () => {
             setupFiltersAndSearch();
             applyFilters();
